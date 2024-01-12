@@ -11,12 +11,12 @@ Tutorial ini membimbing Anda melalui pengaturan proyek Laravel setelah mengkloni
 ## Langkah 1: Mengkloning Repositori
 
 1. Buka terminal Anda.
-2. Kloning repositori Laravel dengan menjalankan:
-3. Navigasi ke direktori yang telah dikloning:
+2. Kloning repositori Laravel dengan menjalankan: `git clone https://github.com/daisnurfaizi/tatausaha.git`
+3. Navigasi ke direktori yang telah dikloning: `cd TataUsaha`
 
 ## Langkah 2: Menginstal Dependensi
 
-1. Instal dependensi PHP menggunakan Composer:
+1. Instal dependensi PHP menggunakan Composer: `composer install`
 
 ## Langkah 3: Mengatur Lingkungan
 
