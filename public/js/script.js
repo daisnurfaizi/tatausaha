@@ -15,7 +15,14 @@ function mintaOtp(){
 
         if (distance > 0) {
             // Jika countdown masih berlangsung, tampilkan alert
-            alert('Mohon tunggu, masih dalam masa countdown.');
+            Toastify({
+                text: "Tunggu " + document.getElementById("countDown").innerHTML + " lagi untuk mengirim OTP",
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#FF8800",
+                stopOnFocus: true,
+            }).showToast();
             return; // Keluar dari fungsi tanpa mengirim OTP
         }
     }

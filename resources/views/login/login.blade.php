@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/toastyfy.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="base-url" content="{{ env('APP_URL') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -56,7 +57,7 @@
         </div>
     </div>
 </body>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="{{ asset('/js/toastify.js') }}"></script>
 <script src="{{ asset('/js/script.js') }}"></script>
 
 </html>
