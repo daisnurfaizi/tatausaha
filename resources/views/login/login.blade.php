@@ -4,46 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('/css/style.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="base-url" content="{{ env('APP_URL') }}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="{{ asset('/js/jquery-3.7.1.js') }}"></script>
     <title>Login Page</title>
 </head>
 
 <body>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input. <br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif {{-- enderror --}}
+    <div class="container">
+        <div class="login">
+            <form action="{{ route('login') }}" method="post">
+                @csrf
+                <h1>Login</h1>
+                <p>SMP Bintang Timur</p>
+                <label for="email">Email:</label>
+                <input type="text" id="email" name="email" value="test@example.com"
+                    placeholder="Enter your email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <label for="">Kode OTP</label>
+                <input type="kode otp" placeholder="Kode OTP" required name="otp">
+                {{-- minta otp --}}
+                <p class="text-center"><a href="#" class="text-center" onclick="mintaOtp()">Minta OTP</a></p>
+                <p id="countDown" class="text-center">
+                </p>
+                {{-- <p class="text-center"><a href="{{ route('password.request') }}">Forgot password?</a></p> --}}
+                <button type="submit" class="a-button">Login</button>
+                {{-- <p class="text-center">Not registered? <a href="{{ route('register') }}">Register</a></p> --}}
+                <p class="text-center"><a href="{{ route('password.request') }}">Forgot password?</a></p>
 
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Login</h3>
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('login') }}" method="post">
-                            @csrf
-                            <div class="form-group">
-                                <label for="username">Email:</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    value="test@example.com" placeholder="Enter your email">
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Password:</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Enter your password">
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-block">Login</button>
-                            <p class="text-center">Not registered? <a href="{{ route('register') }}">Register</a></p>
-                            <p class="text-center"><a href="{{ route('password.request') }}">Forgot password?</a></p>
-                        </form>
-                    </div>
-                </div>
-            </div>
+                {{-- <p>
+                    <a href="#">Forgot Password?</a>
+                </p> --}}
+            </form>
+        </div>
+        <div class="right">
+            <img src="" alt="">
+
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 </body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="{{ asset('/js/script.js') }}"></script>
 
 </html>

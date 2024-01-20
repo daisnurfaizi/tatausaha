@@ -9,6 +9,7 @@
 </head>
 
 <body>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
@@ -17,7 +18,9 @@
                         <h3 class="text-center">Dashboard</h3>
                     </div>
                     <div class="card-body">
-                        <p>Ini adalah halaman dashboard sederhana.</p>
+                        <p>Ini adalah halaman dashboard sederhana. Selamat datang,
+                            <strong>{{ Auth::user()->name }}</strong></p>
+
                         <a href="{{ route('logout') }}" class="btn btn-danger btn-block">Logout</a>
                     </div>
                 </div>

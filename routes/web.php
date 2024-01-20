@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Otp\OtpController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -61,3 +63,6 @@ Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEm
 // Reset Password
 Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
 Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+// Request OTP
+Route::post('send-otp', [OtpController::class, 'sendOtp'])->name('password.otp');
