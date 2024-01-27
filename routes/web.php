@@ -47,7 +47,7 @@ Route::controller(LoginController::class)->group(
     }
 );
 // register
-Route::controller(RegisterController::class)->group(
+Route::controller(RegisterController::class)->middleware('auth')->group(
     function () {
         Route::get('register', 'showRegisterForm')->name('register');
         Route::post('register', 'register')->name('register');

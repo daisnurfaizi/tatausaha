@@ -1,36 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
+@section('title')
+    @lang('translation.starter')
+@endsection
+@section('css')
+@endsection
+@section('content')
+    @component('components.breadcrumb')
+        @slot('li_1')
+            Pages
+        @endslot
+        @slot('title')
+            Starter
+        @endslot
+    @endcomponent
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Basic Datatables</h5>
+                </div>
+                <div class="card-body">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <title>Dashboard</title>
-</head>
-
-<body>
-
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="text-center">Dashboard</h3>
-                    </div>
-                    <div class="card-body">
-                        <p>Ini adalah halaman dashboard sederhana. Selamat datang,
-                            <strong>{{ Auth::user()->name }}</strong></p>
-
-                        <a href="{{ route('logout') }}" class="btn btn-danger btn-block">Logout</a>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
-
-</html>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+@endsection

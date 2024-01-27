@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Register;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repository\User\UserRepository;
+use App\Http\Service\User\UserService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -41,16 +43,8 @@ class RegisterController extends Controller
             return redirect()->route('register')->withErrors($validation)->withInput();
         }
 
-        $user = User::create(
-            [
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password) // Hash::make($request->password)
-            ]
-        );
+        $user = new UserService(new UserRepository(new User()));
 
-        if ($user) {
-            return redirect()->route('login')->with('success', 'User created successfully');
-        }
+        return $user->createUser($request);
     }
 }
