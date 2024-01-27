@@ -8,7 +8,7 @@
                 <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('build/images/logo-dark.png') }}" alt="" height="17">
+                <img src="{{ URL::asset('build/images/31530356_bird_2.jpg') }}" alt="" height="17">
             </span>
         </a>
         <!-- Light Logo-->
@@ -47,22 +47,12 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="#sidebarSignUp" class="nav-link" data-bs-toggle="collapse" role="button"
-                                    aria-expanded="false" aria-controls="sidebarSignUp">@lang('translation.signup')
+                                <a href="#sidebarSignUp" class="nav-link" role="button">Daftar User
                                 </a>
-                                <div class="collapse menu-dropdown" id="sidebarSignUp">
-                                    <ul class="nav nav-sm flex-column">
-                                        <li class="nav-item">
-                                            <a href="auth-signup-basic" class="nav-link">@lang('translation.basic')</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="auth-signup-cover" class="nav-link">@lang('translation.cover')</a>
-                                        </li>
-                                    </ul>
-                                </div>
+
                             </li>
 
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="#sidebarResetPass" class="nav-link" data-bs-toggle="collapse" role="button"
                                     aria-expanded="false" aria-controls="sidebarResetPass">@lang('translation.password-reset')
                                 </a>
@@ -179,7 +169,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
