@@ -4,6 +4,7 @@ namespace App\Http\Builder;
 
 class UserEntityBuilder
 {
+	private $id;
 	private $name;
 	private $email;
 	private $password;
@@ -50,16 +51,29 @@ class UserEntityBuilder
 	// Other necessary methods...
 
 	/**
-    	 * Build an instance of the entity with the values set in the builder.
-    	 *
-    	 * @return \App\Http\Entity\UserEntity
-    	 */
-    	public function build()
-    	{
-    		return new \App\Http\Entity\UserEntity(
+	 * Build an instance of the entity with the values set in the builder.
+	 *
+	 * @return \App\Http\Entity\UserEntity
+	 */
+	public function build()
+	{
+		return new \App\Http\Entity\UserEntity(
+			$this->id,
 			$this->name,
 			$this->email,
 			$this->password,
 		);
+	}
+
+	/**
+	 * Set the value of id
+	 *
+	 * @return  self
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
+
+		return $this;
 	}
 }

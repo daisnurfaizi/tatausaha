@@ -8,6 +8,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Otp\OtpController;
+use App\Http\Controllers\Profile\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,24 @@ Route::group(
         Route::controller(DasboardCotroller::class)->group(
             function () {
                 Route::get('home', 'index')->name('index');
+            }
+        );
+    }
+);
+// profile
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'profile',
+        'as' => 'profile.'
+    ],
+    function () {
+        Route::controller(ProfileController::class)->group(
+            function () {
+                // Route::get('profile', 'index')->name('index');
+                Route::get('profile', 'profile')->name('profile');
+                Route::post('updateProfile', 'updateProfile')->name('updateProfile');
+                Route::post('updatePassword', 'updatePassword')->name('updatePassword');
             }
         );
     }

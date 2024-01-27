@@ -4,13 +4,15 @@ namespace App\Http\Entity;
 
 class UserEntity
 {
+	private $id;
 	private $name;
 	private $email;
 	private $password;
 
 	// Constructor
-	public function __construct($name, $email, $password)
+	public function __construct($id, $name, $email, $password)
 	{
+		$this->id = $id;
 		$this->name = $name;
 		$this->email = $email;
 		$this->password = $password;
@@ -83,4 +85,24 @@ class UserEntity
 	}
 
 	// Other necessary methods...
+
+	/**
+	 * Get the value of id
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * Set the value of id
+	 *
+	 * @return  self
+	 */
+	public function setId($id)
+	{
+		$this->id = $id;
+
+		return $this;
+	}
 }
