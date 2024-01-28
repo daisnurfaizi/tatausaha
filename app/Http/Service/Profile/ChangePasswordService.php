@@ -21,7 +21,7 @@ class ChangePasswordService extends BaseRepository
         try {
             $this->validateRequest($request);
             $passwordBuilder = (new UserEntityBuilder)
-                ->setPassword($request->password)
+                ->setPassword(bcrypt($request->password))
                 ->setId($request->id)
                 ->build();
             $checkPasswordOld = $this->repository->checkPasswordOld($request);
