@@ -8,14 +8,16 @@ class UserEntity
 	private $name;
 	private $email;
 	private $password;
+	private $photo;
 
 	// Constructor
-	public function __construct($id, $name, $email, $password)
+	public function __construct($name, $email, $password, $photo, $id = null)
 	{
-		$this->id = $id;
 		$this->name = $name;
 		$this->email = $email;
 		$this->password = $password;
+		$this->photo = $photo;
+		$this->id = $id;
 	}
 
 
@@ -53,6 +55,17 @@ class UserEntity
 
 
 	/**
+	 * Get the photo.
+	 *
+	 * @return mixed
+	 */
+	public function getPhoto()
+	{
+		return $this->photo;
+	}
+
+
+	/**
 	 * Set the name.
 	 *
 	 * @return mixed
@@ -84,25 +97,25 @@ class UserEntity
 		$this->password = $value;
 	}
 
-	// Other necessary methods...
 
 	/**
-	 * Get the value of id
+	 * Set the photo.
+	 *
+	 * @return mixed
 	 */
+	public function setPhoto($value)
+	{
+		$this->photo = $value;
+	}
+
 	public function getId()
 	{
 		return $this->id;
 	}
 
-	/**
-	 * Set the value of id
-	 *
-	 * @return  self
-	 */
-	public function setId($id)
+	public function setId($value)
 	{
-		$this->id = $id;
-
-		return $this;
+		$this->id = $value;
 	}
+	// Other necessary methods...
 }

@@ -10,6 +10,9 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
+        if (auth()->check()) {
+            return redirect()->route('dashboard.index');
+        }
         return view('login.login');
     }
 

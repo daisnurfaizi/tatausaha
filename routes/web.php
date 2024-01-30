@@ -27,7 +27,7 @@ Route::get('/', function () {
 
 Route::group(
     [
-        'middleware' => 'auth',
+        'middleware' => ['auth'],
         'prefix' => 'dashboard',
         'as' => 'dashboard.'
     ],
@@ -53,6 +53,7 @@ Route::group(
                 Route::get('profile', 'profile')->name('profile');
                 Route::post('updateProfile', 'updateProfile')->name('updateProfile');
                 Route::post('updatePassword', 'updatePassword')->name('updatePassword');
+                Route::post('updatePhoto', 'updatePhoto')->name('updatePhoto');
             }
         );
     }

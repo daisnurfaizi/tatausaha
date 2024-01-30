@@ -8,6 +8,7 @@ class UserEntityBuilder
 	private $name;
 	private $email;
 	private $password;
+	private $photo;
 
 
 	/**
@@ -48,6 +49,25 @@ class UserEntityBuilder
 		return $this;
 	}
 
+
+	/**
+	 * Set the photo.
+	 *
+	 * @param mixed $photo
+	 * @return $this
+	 */
+	public function setPhoto($photo)
+	{
+		$this->photo = $photo;
+		return $this;
+	}
+
+	public function setId($id)
+	{
+		$this->id = $id;
+		return $this;
+	}
+
 	// Other necessary methods...
 
 	/**
@@ -58,22 +78,11 @@ class UserEntityBuilder
 	public function build()
 	{
 		return new \App\Http\Entity\UserEntity(
-			$this->id,
 			$this->name,
 			$this->email,
 			$this->password,
+			$this->photo,
+			$this->id
 		);
-	}
-
-	/**
-	 * Set the value of id
-	 *
-	 * @return  self
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
-
-		return $this;
 	}
 }

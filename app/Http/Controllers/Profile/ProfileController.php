@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repository\Profile\ProfileRepository;
 use App\Http\Service\Profile\ChangePasswordService;
 use App\Http\Service\Profile\ProfileService;
+use App\Http\Service\User\PhotoService;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,5 +28,11 @@ class ProfileController extends Controller
     {
         $profile = new ChangePasswordService(new ProfileRepository(new User()));
         return $profile->changePassword($request);
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $profile = new PhotoService(new ProfileRepository(new User()));
+        return $profile->updatePhoto($request);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Models\User;
+
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use ReflectionClass;
+
 
 class GenerateEntity extends Command
 {

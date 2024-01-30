@@ -38,16 +38,27 @@
                 <div class="card-body p-4">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <img src="@if (Auth::user()->avatar != '') {{ URL::asset('images/' . Auth::user()->avatar) }}@else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
+                            <img src="@if (Auth::user()->photo != '') {{ URL::asset('storage/' . Auth::user()->photo) }}
+                            @else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                <input id="profile-img-file-input" type="file" class="profile-img-file-input">
-                                <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
-                                    <span class="avatar-title rounded-circle bg-body text-body">
-                                        <i class="ri-camera-fill"></i>
-                                    </span>
-                                </label>
+                                <form id="updatePhotoForm" action="{{ route('profile.updatePhoto') }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="id" value="{{ Auth::user()->id }}">
+                                    <input id="profile-img-file-input" type="file" class="profile-img-file-input">
+                                    <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
+                                        <input type="file" name="photo" id="photo"
+                                            class="avatar-title rounded-circle bg-body text-body"
+                                            style="position: absolute;width: 100%;height: 100%;left: 0;top: 0;opacity: 0;cursor: pointer;">
+                                        <span class="avatar-title rounded-circle bg-body text-body">
+                                            <i class="ri-camera-fill"></i>
+                                        </span>
+                                    </label>
+                                </form>
+
                             </div>
+
                         </div>
                         <h5 class="mb-1">{{ Auth::user()->name }}</h5>
                         <p class="text-muted mb-0">{{ Auth::user()->email }}</p>
@@ -188,6 +199,11 @@
         <!--end col-->
     </div>
     <!--end row-->
+    <script>
+        document.getElementById('photo').addEventListener('change', function() {
+            document.getElementById('updatePhotoForm').submit();
+        });
+    </script>
 @endsection
 @section('script')
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
