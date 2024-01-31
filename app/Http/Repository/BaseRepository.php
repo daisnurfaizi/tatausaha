@@ -17,8 +17,11 @@ abstract class BaseRepository implements RepositoryInterface
         $this->model = $model;
     }
 
-    public  function  getAll()
+    public  function  getAll($column = null, $direction = 'asc')
     {
+        if ($column) {
+            return $this->model->orderBy($column, $direction)->get();
+        }
         return $this->model->all();
     }
 
@@ -224,7 +227,6 @@ abstract class BaseRepository implements RepositoryInterface
         $reflection = new ReflectionClass($entity);
 
         $properties = $reflection->getProperties(ReflectionProperty::IS_PRIVATE);
-
         $values = [];
 
         foreach ($properties as $property) {

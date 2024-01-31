@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Otp\OtpController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Student\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,19 @@ Route::group(
         Route::controller(DasboardCotroller::class)->group(
             function () {
                 Route::get('home', 'index')->name('index');
+                Route::get('datauser', 'datauser')->name('datauser');
+                Route::get('getdatauser', 'getDataUsers')->name('getdatauser');
+            }
+        );
+        Route::controller(StudentController::class)->group(
+            function () {
+                Route::get('student', 'index')->name('student');
+                Route::get('getdatastudent', 'getDataStudent')->name('getdatastudent');
+                Route::get('addstudent', 'addStudent')->name('addstudent');
+                Route::post('savestudent', 'saveStudent')->name('savestudent');
+                Route::get('editstudent/{id}', 'editStudent')->name('editstudent');
+                Route::post('updatestudent', 'updateStudent')->name('updatestudent');
+                Route::get('deletestudent/{id}', 'deleteStudent')->name('deletestudent');
             }
         );
     }

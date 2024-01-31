@@ -41,16 +41,26 @@
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarAuth">
                         <ul class="nav nav-sm flex-column">
+                            @if (auth()->user()->hasRole('admin'))
+                                <li class="nav-item">
+                                    <a href="{{ route('register') }}" class="nav-link" role="button">Buat User
+                                    </a>
+
+                                </li>
+                                {{-- permission --}}
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.datauser') }}" class="nav-link" role="button">Daftar
+                                        User
+                                    </a>
+
+                                </li>
+                            @endif
                             <li class="nav-item">
-                                <a href="{{ route('register') }}" class="nav-link" role="button">Buat User
+                                <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar Murid
                                 </a>
 
                             </li>
-                            <li class="nav-item">
-                                <a href="#sidebarSignUp" class="nav-link" role="button">Daftar User
-                                </a>
 
-                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('profile.profile') }}" class="nav-link" role="button">Profile
                                 </a>

@@ -4,6 +4,7 @@ namespace App\Http\Service\User;
 
 use App\Http\Builder\UserEntityBuilder;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\Facades\DataTables;
 
 // change to your repository
 class UserService
@@ -31,5 +32,29 @@ class UserService
             DB::rollBack();
             return redirect()->back()->with('error', 'User creation failed!');
         }
+    }
+
+    public function getDataUsers()
+    {
+        $users = $this->repository->getAll();
+
+        return DataTables::of($users)
+            ->addColumn('name', function ($row) {
+                return $row->name;
+            })
+            ->addColumn('email', function ($row) {
+                return $row->email;
+            })
+            ->addColumn('role', function ($row) {
+                $roles = $row->getRoleNames()->first();
+                return $roles;
+            })
+            ->addColumn('action', function ($row) {
+                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
+                $btn = $btn . ' <a href="javascript:void(0)" class="edit btn btn-danger btn-sm">Delete</a>';
+                return $btn;
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 }
