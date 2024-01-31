@@ -49,6 +49,9 @@ Route::group(
                 Route::get('editstudent/{id}', 'editStudent')->name('editstudent');
                 Route::post('updatestudent', 'updateStudent')->name('updatestudent');
                 Route::get('deletestudent/{id}', 'deleteStudent')->name('deletestudent');
+                Route::get('studentExport', 'studentExport')->name('studentExport');
+                Route::post('studentImport', 'studentImport')->name('studentImport');
+                Route::get('studentTemplate', 'studentTemplate')->name('studentTemplate');
             }
         );
     }

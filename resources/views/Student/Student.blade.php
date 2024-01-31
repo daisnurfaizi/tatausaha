@@ -37,20 +37,33 @@
                     </button>
                     {{-- endmodal --}}
                     {{-- export --}}
-                    <button type="button" class="btn btn-success">
+                    <div class="row">
+                        <form action="{{ route('dashboard.studentImport') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="col-sm-4">
+                                <div class="row">
+                                    <input type="file" name="file" class="form-control">
+                                    <button type="submit" class="btn btn-info">
+                                        Import Data Siswa <i class="mdi mdi-file-import ms-1"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="{{ route('dashboard.studentExport') }}" class="btn btn-success">
                         Export Data Siswa <i class="mdi mdi-file-export ms-1"></i>
-                    </button>
+                    </a>
                     {{-- endexport --}}
                     <br><br>
                     {{-- import --}}
-                    <button type="button" class="btn btn-info">
-                        Import Data Siswa <i class="mdi mdi-file-import ms-1"></i>
-                    </button>
+
+
                     {{-- endimport --}}
                     {{-- template --}}
-                    <button type="button" class="btn btn-dark">
+                    <a href="{{ route('dashboard.studentTemplate') }}" class="btn btn-dark">
                         Template Data Siswa <i class="mdi mdi-file-document ms-1"></i>
-                    </button>
+                    </a>
                     <table id="student" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
