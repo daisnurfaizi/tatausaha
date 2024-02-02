@@ -3,6 +3,7 @@
 namespace App\Http\Service\User;
 
 use App\Http\Builder\UserEntityBuilder;
+use App\Trait\UploadFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class PhotoService
 {
     protected $repository;
+    use UploadFile;
     public function __construct($repository)
     {
         $this->repository = $repository;
@@ -26,14 +28,11 @@ class PhotoService
             $file = $request->file('photo');
             // validate file
             // get file extension
-            $extension = $file->getClientOriginalExtension();
-            // set file name
-            $fileName = time() . '.' . $extension;
-            // set file path
-            $filePath = 'avatar/' . $fileName;
+
+            // set file pat
 
             // upload file
-            $this->uploadFile($file, $filePath);
+            $filePath = $this->uploadFile($file, 'avatar');
             // update photo in database
             $dataUser = (new UserEntityBuilder)
                 ->setId($request->id)
@@ -49,16 +48,7 @@ class PhotoService
         }
     }
 
-    private function uploadFile($file, $filePath)
-    {
-        // jika folder avatar tidak ada maka buat folder avatar
-        if (!Storage::disk('public')->exists('avatar')) {
-            dd('masuk');
-            Storage::disk('public')->makeDirectory('avatar');
-        }
-        Storage::disk('public')->put($filePath, file_get_contents($file));
-        // update photo in database
-    }
+
 
     private function deleteFile($filePath)
     {

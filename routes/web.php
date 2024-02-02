@@ -8,6 +8,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Otp\OtpController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Student\StudentController;
 
@@ -38,6 +39,7 @@ Route::group(
                 Route::get('home', 'index')->name('index');
                 Route::get('datauser', 'datauser')->name('datauser');
                 Route::get('getdatauser', 'getDataUsers')->name('getdatauser');
+                Route::get('deleteuser/{id}', 'deleteUser')->name('deleteuser');
             }
         );
         Route::controller(StudentController::class)->group(
@@ -52,6 +54,22 @@ Route::group(
                 Route::get('studentExport', 'studentExport')->name('studentExport');
                 Route::post('studentImport', 'studentImport')->name('studentImport');
                 Route::get('studentTemplate', 'studentTemplate')->name('studentTemplate');
+            }
+        );
+
+        Route::controller(PaymentController::class)->group(
+            function () {
+                Route::get('payment', 'index')->name('payment');
+                Route::get('getdatapayment', 'getDataPayment')->name('getdatapayment');
+                Route::post('addpayment', 'addPayment')->name('addpayment');
+                Route::get('getDataPayment', 'getDataPayment')->name('getDataPayment');
+                Route::get('getDataPayment/{id}', 'getDataPaymentByID')->name('getDataPaymentByID');
+                Route::get('editpayment/{id}', 'editPayment')->name('editpayment');
+                Route::post('updatepayment', 'updatePayment')->name('updatepayment');
+                Route::get('deletepayment/{id}', 'deletePayment')->name('deletepayment');
+                Route::get('paymentExport', 'paymentExport')->name('paymentExport');
+                Route::post('paymentImport', 'paymentImport')->name('paymentImport');
+                Route::get('paymentTemplate', 'paymentTemplate')->name('paymentTemplate');
             }
         );
     }

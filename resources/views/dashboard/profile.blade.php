@@ -38,9 +38,17 @@
                 <div class="card-body p-4">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <img src="@if (Auth::user()->photo != '') {{ URL::asset('storage/' . Auth::user()->photo) }}
-                            @else{{ URL::asset('build/images/users/avatar-1.jpg') }} @endif"
-                                class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
+                            @if (Auth::user()->photo != '')
+                                <img src="{{ URL::asset('storage/' . Auth::user()->photo) }} "
+                                    class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                    alt="user-profile-image">
+                            @else
+                                <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
+                                    <div class="avatar-title border bg-light text-primary rounded-circle text-uppercase">
+                                        {{ substr(Auth::user()->name, 0, 2) }}
+                                    </div>
+                                </div>
+                            @endif
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                 <form id="updatePhotoForm" action="{{ route('profile.updatePhoto') }}" method="POST"
                                     enctype="multipart/form-data">

@@ -13,20 +13,24 @@ class GetDataStudentService
         $this->repository = $repository;
     }
 
-    public function getAllStudent()
+    public function getAllStudent($datatable = true)
     {
         $student = $this->repository->getAll('name', 'asc');
 
-        return DataTables::of($student)
-            ->addColumn('action', function ($student) {
-                $editButton = '<button class="btn btn-sm btn-warning" onclick="editStudent(' . $student->id . ',\'' . $student->nisn . '\',\'' . $student->name . '\')">Edit</button>';
-                $deleteButton = '<a href="' . route('dashboard.deletestudent', $student->nisn) . '" class="btn btn-sm btn-danger">Delete</a>';
+        if ($datatable) {
+            return DataTables::of($student)
+                ->addColumn('action', function ($student) {
+                    $editButton = '<button class="btn btn-sm btn-warning" onclick="editStudent(' . $student->id . ',\'' . $student->nisn . '\',\'' . $student->name . '\')">Edit</button>';
+                    $deleteButton = '<a href="' . route('dashboard.deletestudent', $student->nisn) . '" class="btn btn-sm btn-danger">Delete</a>';
 
-                return $editButton . ' ' . $deleteButton;
-            })
+                    return $editButton . ' ' . $deleteButton;
+                })
 
-            ->addIndexColumn()
-            ->rawColumns(['action'])
-            ->make(true);
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->make(true);
+        } else {
+            return $student;
+        }
     }
 }

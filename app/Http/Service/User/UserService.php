@@ -3,6 +3,7 @@
 namespace App\Http\Service\User;
 
 use App\Http\Builder\UserEntityBuilder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -50,11 +51,30 @@ class UserService
                 return $roles;
             })
             ->addColumn('action', function ($row) {
-                $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">View</a>';
-                $btn = $btn . ' <a href="javascript:void(0)" class="edit btn btn-danger btn-sm">Delete</a>';
-                return $btn;
+                $viewBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" onclick="viewUser(' . $row->id . ')">View</a>';
+                $deleteBtn = '<a href="' . route('dashboard.deleteuser', $row->id) . '" class="edit btn btn-danger btn-sm">Delete</a>';
+
+                // Hanya menampilkan tombol "View" jika user yang sedang login bukan user yang sedang ditampilkan
+                if ($row->id == Auth::user()->id) {
+                    return $viewBtn;
+                } else {
+                    return $viewBtn . ' ' . $deleteBtn;
+                }
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function deleteUser($id)
+    {
+        DB::beginTransaction();
+        try {
+            $this->repository->delete($id);
+            DB::commit();
+            return redirect()->back()->with('success', 'User deleted successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'User deletion failed!');
+        }
     }
 }

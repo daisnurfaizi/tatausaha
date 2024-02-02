@@ -25,4 +25,10 @@ class DasboardCotroller extends Controller
         $userService = new UserService(new UserRepository(new User()));
         return $userService->getDataUsers();
     }
+
+    public function deleteUser($id)
+    {
+        $userService = new UserService(new UserRepository(new User()));
+        return $userService->deleteUser($id);
+    }
 }

@@ -33,7 +33,6 @@
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th>No</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -54,12 +53,6 @@
             serverSide: true,
             ajax: "{{ route('dashboard.getdatauser') }}",
             columns: [{
-                    data: 'no',
-                    render: function(data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
-                    }
-                },
-                {
                     data: 'name',
                     name: 'name'
                 },
