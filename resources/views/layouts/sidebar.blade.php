@@ -85,13 +85,13 @@
                     <div class="collapse menu-dropdown" id="payment">
                         <ul class="nav nav-sm flex-column">
                             @if (auth()->user()->hasRole('admin'))
-                                <li class="nav-item">
-                                    <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
-                                        Data Spp
-                                    </a>
-
-                                </li>
                             @endif
+                            <li class="nav-item">
+                                <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
+                                    Data Spp
+                                </a>
+
+                            </li>
                             <li class="nav-item">
                                 <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar Murid
                                 </a>

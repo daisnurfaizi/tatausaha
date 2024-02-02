@@ -44,7 +44,9 @@
                                     alt="user-profile-image">
                             @else
                                 <div class="avatar-lg img-thumbnail rounded-circle flex-shrink-0">
-                                    <div class="avatar-title border bg-light text-primary rounded-circle text-uppercase">
+                                    <div
+                                        class="avatar-title border bg-light text-primary te
+                                     rounded-circle text-uppercase">
                                         {{ substr(Auth::user()->name, 0, 2) }}
                                     </div>
                                 </div>

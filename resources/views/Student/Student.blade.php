@@ -30,30 +30,58 @@
                 </div>
                 <div class="card-body">
                     <x-alert.alert />
-                    {{-- modal --}}
-                    <!-- Grids in modals -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid">
-                        Tambah Data Siswa <i class="mdi mdi-plus-circle ms-1"></i>
-                    </button>
-                    {{-- endmodal --}}
-                    {{-- export --}}
+
                     <div class="row">
-                        <form action="{{ route('dashboard.studentImport') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <div class="col-sm-4">
-                                <div class="row">
-                                    <input type="file" name="file" class="form-control">
-                                    <button type="submit" class="btn btn-info">
-                                        Import Data Siswa <i class="mdi mdi-file-import ms-1"></i>
-                                    </button>
-                                </div>
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <!-- Grids in modals -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalgrid">
+                                    Tambah Data Siswa <i class="mdi mdi-plus-circle ms-1"></i>
+                                </button>
                             </div>
-                        </form>
+
+                        </div>
                     </div>
-                    <br>
-                    <a href="{{ route('dashboard.studentExport') }}" class="btn btn-success">
-                        Export Data Siswa <i class="mdi mdi-file-export ms-1"></i>
-                    </a>
+
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="mb-3">
+                                <a href="{{ route('dashboard.studentExport') }}" class="btn btn-success">
+                                    Export Data Siswa <i class="mdi mdi-file-export ms-1"></i>
+                                </a>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-3">
+                            <div class="mb-3">
+                                <a href="{{ route('dashboard.studentTemplate') }}" class="btn btn-dark">
+                                    Template Data Siswa <i class="mdi mdi-file-document ms-1"></i>
+                                </a>
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-6">
+                            <div class="mb-3">
+                                <form action="{{ route('dashboard.studentImport') }}" method="POST"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <input type="file" name="file" class="form-control">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <button type="submit" class="btn btn-info">
+                                                    Import Data Siswa <i class="mdi mdi-file-import ms-1"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div><!--end col-->
+
+                    </div>
+
                     {{-- endexport --}}
                     <br><br>
                     {{-- import --}}
@@ -61,9 +89,7 @@
 
                     {{-- endimport --}}
                     {{-- template --}}
-                    <a href="{{ route('dashboard.studentTemplate') }}" class="btn btn-dark">
-                        Template Data Siswa <i class="mdi mdi-file-document ms-1"></i>
-                    </a>
+
                     <table id="student" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
