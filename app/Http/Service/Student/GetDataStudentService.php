@@ -33,4 +33,12 @@ class GetDataStudentService
             return $student;
         }
     }
+
+    // count all student
+    public function countAllStudent()
+    {
+        return $this->repository->getModels()::select('nisn')
+            ->whereNull('deleted_at')
+            ->count();
+    }
 }

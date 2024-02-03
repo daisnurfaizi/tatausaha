@@ -218,4 +218,56 @@ class PaymentService
 
         return $datatable->make(true);
     }
+
+    public function totalPembayaran()
+    {
+        return $this->repository->totalKeseluahanPembayaran();
+    }
+
+    public function totalPembayaranBulanan()
+    {
+        return $this->repository->totalPembayaranBulanan();
+    }
+
+    public function totalPembayaranBulanLalu()
+    {
+        return $this->repository->totalPembayaranBulanLalu();
+    }
+
+    public function totalPembayaranTahunan()
+    {
+        return $this->repository->totalPembayaranTahunan();
+    }
+
+    public function totalPesentasiBulanIni()
+    {
+        $bulanini = floatval($this->repository->totalPembayaranBulanan()->total_payment);
+        $bulanlalu = floatval($this->repository->totalPembayaranBulanLalu()->total_payment);
+
+        if ($bulanini < $bulanlalu) {
+            $persentase = ($bulanini - $bulanlalu) / $bulanlalu * 100;
+            return "<i class='ri-arrow-right-down-line fs-13 align-middle'></i> " . $persentase . " %";
+        } elseif ($bulanini == $bulanlalu) {
+            return "<i class='fs-13 align-middle'></i> + 0 %";
+        } else {
+            $persentase = ($bulanini - $bulanlalu) / $bulanlalu * 100;
+            return "<i class='ri-arrow-right-up-line fs-13 align-middle'></i> +" . $persentase . " %";
+        }
+    }
+
+    public function totalPesentasiBulanLalu()
+    {
+        $bulanini = floatval($this->repository->totalPembayaranBulanan()->total_payment);
+        $bulanlalu = floatval($this->repository->totalPembayaranBulanLalu()->total_payment);
+
+        if ($bulanini < $bulanlalu) {
+            $persentase = ($bulanini - $bulanlalu) / $bulanlalu * 100;
+            return "<i class='ri-arrow-right-down-line fs-13 align-middle'></i> -" . $persentase . " %";
+        } elseif ($bulanini == $bulanlalu) {
+            return "<i class='fs-13 align-middle'></i> + 0 %";
+        } else {
+            $persentase = ($bulanini - $bulanlalu) / $bulanlalu * 100;
+            return "<i class='ri-arrow-right-up-line fs-13 align-middle'></i> +" . $persentase . " %";
+        }
+    }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Analitic\AnalitcController;
 use App\Http\Controllers\Dashboad\DasboardCotroller;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Register\RegisterController;
@@ -71,6 +72,12 @@ Route::group(
                 Route::post('paymentImport', 'paymentImport')->name('paymentImport');
                 Route::get('paymentTemplate', 'paymentTemplate')->name('paymentTemplate');
                 Route::get('kartupembayaran', 'getKartuPembayaran')->name('getKartuPembayaran');
+            }
+        );
+
+        Route::controller(AnalitcController::class)->group(
+            function () {
+                Route::get('analitic', 'index')->name('analitic');
             }
         );
     }

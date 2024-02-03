@@ -33,7 +33,25 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><i class="ri-more-fill"></i> <span>@lang('translation.pages')</span></li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="payment">
+                        <i class="ri-money-dollar-circle-line"></i> <span>@lang('Analityc')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="payment">
+                        <ul class="nav nav-sm flex-column">
+                            @if (auth()->user()->hasRole('admin'))
+                            @endif
+                            <li class="nav-item">
+                                <a href="{{ route('dashboard.analitic') }}" class="nav-link" role="button">
+                                    Data Analitic SPP
+                                </a>
 
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarAuth">
@@ -80,7 +98,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="payment">
-                        <i class="ri-money-dollar-circle-line"></i> <span>@lang('translation.payment')</span>
+                        <i class="ri-money-dollar-circle-line"></i> <span>@lang('SPP')</span>
                     </a>
                     <div class="collapse menu-dropdown" id="payment">
                         <ul class="nav nav-sm flex-column">
@@ -93,7 +111,8 @@
 
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar Murid
+                                <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar
+                                    Murid
                                 </a>
 
                             </li>

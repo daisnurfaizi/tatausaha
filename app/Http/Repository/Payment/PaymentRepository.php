@@ -15,10 +15,11 @@ class PaymentRepository extends BaseRepository
 
     public function totalPembayaranBulanan()
     {
-        return $this->model->select(DB::raw('MONTH(payment_date) as month'), DB::raw('SUM(payment_amount) as total_payment'))
-            ->groupBy(DB::raw('MONTH(payment_date)'))
-            ->orderBy(DB::raw('MONTH(payment_date)'))
-            ->get();
+        return $this->model->select(DB::raw('SUM(payment_amount) as total_payment'))
+            ->whereNull('deleted_at')
+            ->whereYear('payment_date', Carbon::now()->format('Y'))
+            ->whereMonth('payment_date', Carbon::now()->format('m'))
+            ->first();
     }
 
     public function averagePaymentPerStudent()
@@ -36,5 +37,52 @@ class PaymentRepository extends BaseRepository
             ->where('month', $month)
             ->whereYear('payment_date', Carbon::parse($year)->format('Y'))
             ->first();
+    }
+
+    public function totalPembayaranTahunan()
+    {
+        return $this->model->select(DB::raw('SUM(payment_amount) as total_payment'))
+            ->whereNull('deleted_at')
+            ->whereYear('payment_date', Carbon::now()->format('Y'))
+            ->first();
+    }
+
+
+    public function totalPembayaranBulanLalu()
+    {
+        $lastMonth = Carbon::now()->subMonth();
+
+        return $this->model->select(DB::raw('SUM(payment_amount) as total_payment'))
+            ->whereNull('deleted_at')
+            ->whereMonth('payment_date', $lastMonth->format('m'))
+            ->whereYear('payment_date', $lastMonth->format('Y'))
+            ->first();
+    }
+
+    public function persentaasePembayaranBulanLalu()
+    {
+        $totalPembayaranBulanLalu = $this->totalPembayaranBulanLalu();
+        $totalPembayaranBulanIni = $this->totalPembayaranBulanan();
+        dd($totalPembayaranBulanLalu, $totalPembayaranBulanIni);
+        if ($totalPembayaranBulanLalu && $totalPembayaranBulanLalu->total_payment == 0) {
+            return 0;
+        } elseif ($totalPembayaranBulanIni->total_payment == 0) {
+            return null; // or handle the case when total_payment for this month is 0
+        }
+
+        return ($totalPembayaranBulanLalu->total_payment / $totalPembayaranBulanIni->total_payment) * 100;
+    }
+
+
+    public function persentasePembayaranBulanIni()
+    {
+        $totalPembayaranBulanLalu = $this->totalPembayaranBulanLalu()->total_payment;
+        $totalPembayaranBulanIni = $this->totalPembayaranBulanan()->total_payment;
+
+        if ($totalPembayaranBulanIni == 0) {
+            return 0;
+        }
+
+        return ($totalPembayaranBulanLalu / $totalPembayaranBulanIni) * 100;
     }
 }

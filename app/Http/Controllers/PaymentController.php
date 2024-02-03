@@ -55,4 +55,16 @@ class PaymentController extends Controller
         $kartuPembayaran = new PaymentService(new PaymentRepository(new Payment()));
         return $kartuPembayaran->kartuPembayaran();
     }
+
+    public function getTotalPembayaranBulanan()
+    {
+        $totalPembayaranBulanan = new PaymentService(new PaymentRepository(new Payment()));
+        return $totalPembayaranBulanan->totalPembayaran();
+    }
+
+    public function getTotalPembayaranTahunan()
+    {
+        $totalPembayaranTahunan = new PaymentService(new PaymentRepository(new Payment()));
+        return $totalPembayaranTahunan->totalPembayaranTahunan();
+    }
 }
