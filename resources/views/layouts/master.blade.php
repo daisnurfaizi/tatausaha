@@ -16,7 +16,11 @@
     {{-- csrf --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ URL::asset('build/images/favicon.ico') }}">
+    @if (!empty($result->favicon))
+        <link rel="shortcut icon" href="{{ URL::asset('storage/' . $result->favicon) }}">
+    @else
+        <link rel="shortcut icon" href="{{ URL::asset('assets/images/favicon.ico') }}">
+    @endif
     @include('layouts.head-css')
 </head>
 
