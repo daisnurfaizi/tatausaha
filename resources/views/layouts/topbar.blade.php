@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="ms-1 header-item d-none d-sm-flex">
-                    <button type="button"
+                    <button type="button" onclick="toggleTheme()" id="theme-mode" data-bs-toggle="tooltip"
                         class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                         <i class='bx bx-moon fs-22'></i>
                     </button>

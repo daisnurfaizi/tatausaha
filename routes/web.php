@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Otp\OtpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Student\StudentController;
 
 /*
@@ -84,6 +85,18 @@ Route::group(
             function () {
                 Route::get('aplication', 'index')->name('aplication');
                 Route::post('aplicationupdate', 'update')->name('aplicationupdate');
+            }
+        );
+
+        Route::controller(RoleController::class)->group(
+            function () {
+                Route::get('role', 'index')->name('role');
+                Route::get('getdatarole', 'getDataRole')->name('getdatarole');
+                Route::get('addrole', 'addRole')->name('addrole');
+                Route::post('saverole', 'saveRole')->name('saverole');
+                Route::get('editrole/{id}', 'editRole')->name('editrole');
+                Route::post('updaterole', 'updateRole')->name('updaterole');
+                Route::get('deleterole/{id}', 'deleteRole')->name('deleterole');
             }
         );
     }

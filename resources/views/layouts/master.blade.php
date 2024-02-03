@@ -7,6 +7,22 @@
 @endphp
 
 <head>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var htmlElement = document.documentElement;
+            var storedSidebar = localStorage.getItem('data-bs-theme');
+
+            // Update data-sidebar if a value is found in local storage
+            if (storedSidebar == 'dark') {
+                htmlElement.setAttribute('data-sidebar', 'light');
+                htmlElement.setAttribute('data-bs-theme', 'light');
+            } else {
+                htmlElement.setAttribute('data-sidebar', 'dark');
+                htmlElement.setAttribute('data-bs-theme', 'dark');
+            }
+        });
+    </script>
+
     <meta charset="utf-8" />
     <title>@yield('title')|{{ $result->title ?? 'Tata Usaha' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
