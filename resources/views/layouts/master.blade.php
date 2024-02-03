@@ -2,9 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-layout="vertical" data-sidebar="light"
     data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
+@php
+    $result = \App\Helper\AplicationHelper::getAplication();
+@endphp
+
 <head>
     <meta charset="utf-8" />
-    <title>@yield('title')|Tata Usaha</title>
+    <title>@yield('title')|{{ $result->title ?? 'Tata Usaha' }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -22,7 +26,7 @@
 <!-- Begin page -->
 <div id="layout-wrapper">
     @include('layouts.topbar')
-    @include('layouts.sidebar')
+    @include('layouts.sidebar', ['aplication' => $result])
     <!-- ============================================================== -->
     <!-- Start right Content here -->
     <!-- ============================================================== -->
@@ -34,7 +38,7 @@
             <!-- container-fluid -->
         </div>
         <!-- End Page-content -->
-        @include('layouts.footer')
+        @include('layouts.footer', ['result' => $result])
     </div>
     <!-- end main content-->
 </div>

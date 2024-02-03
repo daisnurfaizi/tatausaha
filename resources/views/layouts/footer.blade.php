@@ -4,11 +4,12 @@
             <div class="col-sm-6">
                 <script>
                     document.write(new Date().getFullYear())
-                </script> © DS Stark.
+                </script> © {{ $result->owner ?? 'DS Stark' }}.
             </div>
             <div class="col-sm-6">
                 <div class="text-sm-end d-none d-sm-block">
-                    Design & Develop by DS Stark
+
+                    {{ $result->footer ?? 'Design & Develop by DS Stark' }}
                 </div>
             </div>
         </div>

@@ -52,8 +52,11 @@
             </form>
         </div>
         <div class="right">
-            <img src="" alt="">
-
+            @if (!empty($aplication->login_logo))
+                <img src="{{ URL::asset('storage/' . $aplication->login_logo) }} " alt="user-profile-image">
+            @else
+                <img src="" alt="user-profile-image">
+            @endif
         </div>
     </div>
 </body>

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             GivePermission::class,
             StudentSeeder::class,
+            AplicationSeeder::class,
         ]);
     }
 }

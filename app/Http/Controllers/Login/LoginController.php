@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Login;
 
+use App\Helper\AplicationHelper;
 use App\Helper\Otp;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +14,8 @@ class LoginController extends Controller
         if (auth()->check()) {
             return redirect()->route('dashboard.index');
         }
-        return view('login.login');
+        $aplication = AplicationHelper::getAplication();
+        return view('login.login', compact('aplication'));
     }
 
     public function login(Request $request)

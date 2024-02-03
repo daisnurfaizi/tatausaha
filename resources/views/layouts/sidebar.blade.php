@@ -5,10 +5,19 @@
         <!-- Dark Logo-->
         <a href="index" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
+                @if (!empty($aplication->sidebar_logo_small))
+                    <img src="{{ URL::asset('storage/' . $aplication->sidebar_logo_small) }}" alt=""
+                        height="22">
+                @else
+                    <img src="{{ URL::asset('build/images/logo-sm.png') }}" alt="" height="22">
+                @endif
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('build/images/31530356_bird_2.jpg') }}" alt="" height="17">
+                @if (!empty($aplication->sidebar_logo))
+                    <img src="{{ URL::asset('storage/' . $aplication->sidebar_logo) }}" alt="" height="22">
+                @else
+                    <img src="{{ URL::asset('build/images/31530356_bird_2.jpg') }}" alt="" height="22">
+                @endif
             </span>
         </a>
         <!-- Light Logo-->
@@ -32,11 +41,33 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
+
                 <li class="menu-title"><i class="ri-more-fill"></i> <span>@lang('translation.pages')</span></li>
+                @if (auth()->user()->hasRole('admin'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="payment">
+                            <i class="ri-home-gear-fill"></i>
+                            <span>@lang('Aplikasi')</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="payment">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.aplication') }}" class="nav-link" role="button">
+                                        Aplication
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="payment">
-                        <i class="ri-money-dollar-circle-line"></i> <span>@lang('Analityc')</span>
+                        <i class="mdi mdi-google-analytics"></i>
+                        <span>@lang('Analytics')</span>
                     </a>
                     <div class="collapse menu-dropdown" id="payment">
                         <ul class="nav nav-sm flex-column">

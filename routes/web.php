@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Analitic\AnalitcController;
+use App\Http\Controllers\Aplication\AplicationController;
 use App\Http\Controllers\Dashboad\DasboardCotroller;
 use App\Http\Controllers\Login\LoginController;
 use App\Http\Controllers\Register\RegisterController;
@@ -24,9 +25,7 @@ use App\Http\Controllers\Student\StudentController;
 |
 */
 
-Route::get('/', function () {
-    return view('login.login');
-});
+Route::get('/', [LoginController::class, 'showLoginForm'])->name('login.index');
 
 Route::group(
     [
@@ -78,6 +77,13 @@ Route::group(
         Route::controller(AnalitcController::class)->group(
             function () {
                 Route::get('analitic', 'index')->name('analitic');
+            }
+        );
+
+        Route::controller(AplicationController::class)->group(
+            function () {
+                Route::get('aplication', 'index')->name('aplication');
+                Route::post('aplicationupdate', 'update')->name('aplicationupdate');
             }
         );
     }
