@@ -250,6 +250,9 @@ class PaymentService
         } elseif ($bulanini == $bulanlalu) {
             return "<i class='fs-13 align-middle'></i> + 0 %";
         } else {
+            if ($bulanlalu == 0) {
+                return "<i class='ri-arrow-right-up-line fs-13 align-middle'></i> + 100 %";
+            }
             $persentase = ($bulanini - $bulanlalu) / $bulanlalu * 100;
             return "<i class='ri-arrow-right-up-line fs-13 align-middle'></i> +" . $persentase . " %";
         }
@@ -266,6 +269,9 @@ class PaymentService
         } elseif ($bulanini == $bulanlalu) {
             return "<i class='fs-13 align-middle'></i> + 0 %";
         } else {
+            if ($bulanini == 0) {
+                return "<i class='ri-arrow-right-up-line fs-13 align-middle'></i> + 100 %";
+            }
             $persentase = ($bulanini - $bulanlalu) / $bulanlalu * 100;
             return "<i class='ri-arrow-right-up-line fs-13 align-middle'></i> +" . $persentase . " %";
         }
