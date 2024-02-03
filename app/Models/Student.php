@@ -21,4 +21,9 @@ class Student extends Model
 
     // soft delete
     protected $dates = ['deleted_at'];
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'nisn', 'nisn');
+    }
 }

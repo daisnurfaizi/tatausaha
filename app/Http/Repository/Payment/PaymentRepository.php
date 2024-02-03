@@ -3,6 +3,7 @@
 namespace App\Http\Repository\Payment;
 
 use App\Http\Repository\BaseRepository;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PaymentRepository extends BaseRepository
@@ -26,5 +27,14 @@ class PaymentRepository extends BaseRepository
             ->join('students', 'payments.nisn', '=', 'students.nisn')
             ->groupBy('students.nisn', 'students.name')
             ->get();
+    }
+
+    // cek siswa tidak boleh membayar bulan yang sama dalam tahun yang sama
+    public function checkPayment($nisn, $month, $year)
+    {
+        return $this->model->where('nisn', $nisn)
+            ->where('month', $month)
+            ->whereYear('payment_date', Carbon::parse($year)->format('Y'))
+            ->first();
     }
 }

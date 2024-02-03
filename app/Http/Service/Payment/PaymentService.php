@@ -3,10 +3,12 @@
 namespace App\Http\Service\Payment;
 
 use App\Http\Builder\PaymentEntityBuilder;
+use App\Models\Student;
 use App\Trait\UploadFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Contracts\DataTable;
 use Yajra\DataTables\Facades\DataTables;
 
 // change to your repository
@@ -24,6 +26,7 @@ class PaymentService
         DB::beginTransaction();
         try {
             $this->validatePayment($request);
+            $this->chekPyment($request->nisn, $request->month, $request->payment_date);
             $paymentData = $this->builderPayment($request);
             $this->repository->createByEntity($paymentData);
 
@@ -46,7 +49,7 @@ class PaymentService
             'payment_file' => 'mimes:jpg,jpeg,png,pdf|max:2048',
         ];
         $messages = [
-            'nisn.required' => 'NISN harus diisi',
+            'nisn.required' => 'NISN harus diisi atau pilih siswa',
             'payment_date.required' => 'Tanggal pembayaran harus diisi',
             'month.required' => 'Bulan pembayaran harus diisi',
             'payment_amount.required' => 'Jumlah pembayaran harus diisi',
@@ -123,14 +126,14 @@ class PaymentService
     public function getDataPaymentByID($id)
     {
         $payment = $this->repository->getModels()::with('student')->select(
-                'id',
-                'nisn',
-                'payment_date',
-                'month',
-                DB::raw('format(payment_amount, 0) as payment_amount'),
-                'payment_method',
-                'note',
-            )->where('id', $id)->first();
+            'id',
+            'nisn',
+            'payment_date',
+            'month',
+            DB::raw('format(payment_amount, 0) as payment_amount'),
+            'payment_method',
+            'note',
+        )->where('id', $id)->first();
         return $payment;
     }
 
@@ -139,6 +142,7 @@ class PaymentService
         DB::beginTransaction();
         try {
             $this->validatePayment($request);
+            $this->chekPyment($request->nisn, $request->month, $request->payment_date);
             $paymentData = $this->builderPayment($request);
             $this->repository->updateDetailBy($paymentData, 'getId', 'id');
             DB::commit();
@@ -168,5 +172,50 @@ class PaymentService
             $paymentData->setPaymentFile($this->uploadFile($request->file('payment_file'), 'payment'));
         }
         return $paymentData->build();
+    }
+
+    private function chekPyment($nisn, $month, $date)
+    {
+        $dataPembayaran = $this->repository->checkPayment($nisn, $month, $date);
+        if ($dataPembayaran) {
+            throw new \Exception('Siswa sudah membayar tagihan bulan ' . $dataPembayaran->month);
+        }
+    }
+
+
+    public function kartuPembayaran()
+    {
+        $year = $year ?? date('Y'); // Gunakan tahun saat ini jika tidak ada parameter
+        $months = ['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'];
+
+        $students = Student::with(['payments' => function ($query) use ($year, $months) {
+            $query->whereYear('payment_date', $year)
+                ->whereIn('month', $months)
+                ->whereNull('deleted_at');
+        }])->get();
+
+        $datatable = DataTables::of($students)
+            ->addColumn('nama_siswa', function ($student) {
+                return $student->name;
+            });
+
+        foreach ($months as $month) {
+            $datatable->addColumn($month, function ($student) use ($month) {
+                // Jika ada pembayaran
+                if ($student->payments->where('month', $month)->first()) {
+                    return '<span class="badge bg-success">Lunas</span>';
+                } else {
+                    return '<i class="fa fa-times text-danger"></i>';
+                }
+            });
+        }
+
+        $datatable->addColumn('action', function ($student) {
+            return '<a href="" class="btn btn-sm btn-primary">Lihat</a>';
+        })
+            ->addIndexColumn()
+            ->rawColumns(['action', 'januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember']);
+
+        return $datatable->make(true);
     }
 }

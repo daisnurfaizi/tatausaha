@@ -49,4 +49,10 @@ class PaymentController extends Controller
         $payment = new PaymentService(new PaymentRepository(new Payment()));
         return $payment->updatePayment($request);
     }
+
+    public function getKartuPembayaran()
+    {
+        $kartuPembayaran = new PaymentService(new PaymentRepository(new Payment()));
+        return $kartuPembayaran->kartuPembayaran();
+    }
 }

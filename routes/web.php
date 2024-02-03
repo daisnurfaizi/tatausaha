@@ -70,6 +70,7 @@ Route::group(
                 Route::get('paymentExport', 'paymentExport')->name('paymentExport');
                 Route::post('paymentImport', 'paymentImport')->name('paymentImport');
                 Route::get('paymentTemplate', 'paymentTemplate')->name('paymentTemplate');
+                Route::get('kartupembayaran', 'getKartuPembayaran')->name('getKartuPembayaran');
             }
         );
     }
