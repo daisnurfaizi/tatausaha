@@ -54,7 +54,7 @@ class UserService
                 return $roles;
             })
             ->addColumn('action', function ($row) {
-                $viewBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" onclick="viewUser(' . $row->id . ')">View</a>';
+                $viewBtn = '<button type="button" class="edit btn btn-primary btn-sm" onclick="editForm(' . $row->id . ')">View</button>';
                 $deleteBtn = '<a href="' . route('dashboard.deleteuser', $row->id) . '" class="edit btn btn-danger btn-sm">Delete</a>';
 
                 // Hanya menampilkan tombol "View" jika user yang sedang login bukan user yang sedang ditampilkan
@@ -78,6 +78,29 @@ class UserService
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'User deletion failed!');
+        }
+    }
+
+    public function getDataUsersById($id)
+    {
+        $user = $this->repository->getModels()::where('id', $id)->with('roles')->first();
+        return $user;
+    }
+
+    public function updateUser($request)
+    {
+        DB::beginTransaction();
+        try {
+            $user = $this->repository->getModels()::where('id', $request->id)->first();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->save();
+            $user->roles()->sync($request->role);
+            DB::commit();
+            return redirect()->back()->with('success', 'User updated successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'User update failed!');
         }
     }
 }
