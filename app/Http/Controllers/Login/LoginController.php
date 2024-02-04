@@ -12,9 +12,9 @@ class LoginController extends Controller
 {
     public function showLoginForm()
     {
-        if (auth()->check()) {
-            return redirect()->route('dashboard.index');
-        }
+        // if (auth()->check()) {
+        //     return redirect()->route('dashboard.index');
+        // }
         $aplication = AplicationHelper::getAplication();
         return view('login.login', compact('aplication'));
     }
@@ -36,7 +36,7 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
         $checkotp = Otp::checkOtp($user->id, $request->otp);
         if ($checkotp === false) {
-            return redirect()->back()->with('error', 'Invalid OTP');
+            return redirect()->back()->withInput()->withErrors('Invalid OTP');
         }
         if (auth()->attempt($credentials) && $checkotp === true) {
             // check otp
@@ -44,13 +44,12 @@ class LoginController extends Controller
             return redirect()->route('dashboard.index');
         }
 
-        return redirect()->back()->with('error', 'Invalid email or password');
+        return redirect()->back()->withInput()->with('error', 'Invalid Credentials');
     }
 
     public function logout()
     {
         auth()->logout();
-        session()->flush();
 
         return redirect()->route('login');
     }
