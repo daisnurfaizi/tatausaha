@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Route;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Mail\Mailcontroller;
 use App\Http\Controllers\Otp\OtpController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Surat\SuratController;
 
 /*
 |--------------------------------------------------------------------------
@@ -97,6 +99,17 @@ Route::group(
                 Route::get('editrole/{id}', 'editRole')->name('editrole');
                 Route::post('updaterole', 'updateRole')->name('updaterole');
                 Route::get('deleterole/{id}', 'deleteRole')->name('deleterole');
+            }
+        );
+        Route::controller(Mailcontroller::class)->group(
+            function () {
+                Route::get('mail', 'index')->name('mail');
+            }
+        );
+
+        Route::controller(SuratController::class)->group(
+            function () {
+                Route::post('createkop', 'createKop')->name('createkop');
             }
         );
     }
