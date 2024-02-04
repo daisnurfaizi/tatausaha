@@ -92,7 +92,7 @@ Route::group(
             function () {
                 Route::get('role', 'index')->name('role');
                 Route::get('getdatarole', 'getDataRole')->name('getdatarole');
-                Route::get('addrole', 'addRole')->name('addrole');
+                Route::post('addrole', 'addRole')->name('addrole');
                 Route::post('saverole', 'saveRole')->name('saverole');
                 Route::get('editrole/{id}', 'editRole')->name('editrole');
                 Route::post('updaterole', 'updateRole')->name('updaterole');

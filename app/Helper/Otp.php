@@ -12,7 +12,6 @@ class Otp
             ->where('code', $otp)
             ->where('expires_at', '>', now())
             ->exists();
-
         return $otp;
     }
 }

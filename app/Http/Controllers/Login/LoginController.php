@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Login;
 use App\Helper\AplicationHelper;
 use App\Helper\Otp;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -32,22 +33,24 @@ class LoginController extends Controller
 
 
         $credentials = $request->only('email', 'password');
-
-        if (auth()->attempt($credentials)) {
+        $user = User::where('email', $request->email)->first();
+        $checkotp = Otp::checkOtp($user->id, $request->otp);
+        if ($checkotp === false) {
+            return redirect()->back()->with('error', 'Invalid OTP');
+        }
+        if (auth()->attempt($credentials) && $checkotp === true) {
             // check otp
             // dd(Otp::checkOtp(auth()->user()->id, $request->otp));
-            if (Otp::checkOtp(auth()->user()->id, $request->otp)) {
-                return redirect()->route('dashboard.index');
-            }
-            return redirect()->route('login')->with('error', 'Invalid otp');
+            return redirect()->route('dashboard.index');
         }
 
-        return redirect()->route('login')->with('error', 'Invalid credentials');
+        return redirect()->back()->with('error', 'Invalid email or password');
     }
 
     public function logout()
     {
         auth()->logout();
+        session()->flush();
 
         return redirect()->route('login');
     }

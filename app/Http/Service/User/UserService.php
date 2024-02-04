@@ -6,6 +6,7 @@ use App\Http\Builder\UserEntityBuilder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Spatie\Permission\Models\Role;
 
 // change to your repository
 class UserService
@@ -26,7 +27,9 @@ class UserService
                 ->setEmail($reqesut->email)
                 ->setPassword($reqesut->password)
                 ->build();
-            $this->repository->createUser($userBuilder);
+            $user = $this->repository->createUser($userBuilder);
+            // dd($user);
+            $user->roles()->sync($reqesut->role);
             DB::commit();
             return redirect()->back()->with('success', 'User created successfully!');
         } catch (\Exception $e) {
