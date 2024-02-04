@@ -24,6 +24,8 @@ class ProfileService
             $userBuilder = (new UserEntityBuilder)
                 ->setName($request->name)
                 ->setEmail($request->email)
+                ->setAddress($request->address)
+                ->setPhone($request->phone)
                 ->setId($request->id)
                 ->build();
             $this->repository->updateProfile($userBuilder);
@@ -42,7 +44,9 @@ class ProfileService
             [
                 'id' => 'required',
                 'name' => 'required',
-                'email' => 'required|email'
+                'email' => 'required|email',
+                'address' => 'sometimes',
+                'phone' => 'sometimes|numeric'
             ]
         );
 
