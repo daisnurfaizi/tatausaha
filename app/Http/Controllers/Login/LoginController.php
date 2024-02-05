@@ -7,6 +7,7 @@ use App\Helper\Otp;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
 {
@@ -21,19 +22,30 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate(
+        $validator = Validator::make(
+            $request->all(),
             [
                 'email' => 'required|email',
-                'password' => 'required',
-                'otp' => 'required'
+                'password' => 'required'
+            ],
+            [
+                'email.required' => 'Email Harus diisi',
+                'email.email' => 'Email tidak valid',
+                'password.required' => 'Password Harus diisi'
             ]
         );
 
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
         // check otp
 
 
         $credentials = $request->only('email', 'password');
         $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return redirect()->back()->withInput()->withErrors('Email tidak terdaftar');
+        }
         $checkotp = Otp::checkOtp($user->id, $request->otp);
         if ($checkotp === false) {
             return redirect()->back()->withInput()->withErrors('Invalid OTP');
