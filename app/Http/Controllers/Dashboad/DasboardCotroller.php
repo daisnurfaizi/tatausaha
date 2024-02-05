@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Repository\User\UserRepository;
 use App\Http\Service\User\UserService;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
@@ -23,8 +24,9 @@ class DasboardCotroller extends Controller
             } elseif ($user->hasRole('admin spp')) {
                 return redirect()->route('dashboard.payment');
             } else {
+                // dd('error');
                 // Handle undefined roles, you can redirect to a default dashboard or show an error.
-                return redirect()->route('dashboard.index');
+                return View('dashboard.index');
             }
         } else {
             // Handle unauthenticated users, you can redirect them to the login page.

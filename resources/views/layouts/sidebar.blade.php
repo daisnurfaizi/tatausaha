@@ -166,6 +166,34 @@
                         </div>
                     </li>
                 @endif
+                @if (auth()->user()->hasRole('admin') ||
+                        auth()->user()->hasRole('admin surat'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#surat" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="surat">
+                            <i class="mdi mdi-card-account-mail"></i>
+                            <span>@lang('Surat')</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="surat">
+                            <ul class="nav nav-sm flex-column">
+
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
+                                        Surat Masuk
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Buat
+                                        Surat Keluar
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
             </ul>
         </div>
