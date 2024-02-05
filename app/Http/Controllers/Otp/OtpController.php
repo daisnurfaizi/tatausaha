@@ -19,12 +19,19 @@ class OtpController extends Controller
     {
         // dd($request->all());
         try {
-            $request->validate([
-                'email' => 'required|email|exists:users,email'
-            ]);
+            $request->validate(
+                [
+                    'email' => 'required|email|exists:users,email'
+                ],
+
+                [
+                    'email.required' => 'Email Harus diisi',
+                    'email.email' => 'Email tidak valid',
+                    'email.exists' => 'Email tidak terdaftar'
+                ]
+            );
 
             $user = User::where('email', $request->email)->first();
-
             $otp = rand(100000, 999999);
 
 

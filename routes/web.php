@@ -136,6 +136,33 @@ Route::group(
     }
 );
 
+// surat
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'surat',
+        'as' => 'surat.'
+    ],
+    function () {
+        Route::controller(SuratController::class)->group(
+            function () {
+                Route::get('surat', 'index')->name('index');
+                Route::get('getdatasurat', 'getDataSurat')->name('getdatasurat');
+                Route::post('addsurat', 'addSurat')->name('addsurat');
+                Route::get('editsurat/{id}', 'editSurat')->name('editsurat');
+                Route::post('updatesurat', 'updateSurat')->name('updatesurat');
+                Route::get('deletesurat/{id}', 'deleteSurat')->name('deletesurat');
+                Route::get('suratExport', 'suratExport')->name('suratExport');
+                Route::post('suratImport', 'suratImport')->name('suratImport');
+                Route::get('suratTemplate', 'suratTemplate')->name('suratTemplate');
+                Route::get('suratMasuk', 'suratMasuk')->name('suratMasuk');
+                Route::get('suratKeluar', 'suratKeluar')->name('suratKeluar');
+            }
+        );
+    }
+);
+
+
 Route::controller(LoginController::class)->group(
     function () {
         Route::get('login', 'showLoginForm')->name('login');

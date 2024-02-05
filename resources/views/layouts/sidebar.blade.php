@@ -178,13 +178,13 @@
                             <ul class="nav nav-sm flex-column">
 
                                 <li class="nav-item">
-                                    <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
+                                    <a href="{{ route('surat.suratMasuk') }}" class="nav-link" role="button">Input
                                         Surat Masuk
                                     </a>
 
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Buat
+                                    <a href="{{ route('surat.suratKeluar') }}" class="nav-link" role="button">Buat
                                         Surat Keluar
                                     </a>
 

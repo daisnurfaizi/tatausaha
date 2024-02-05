@@ -109,6 +109,17 @@ function sendOtp(){
             } else {
                 alert('OTP gagal dikirim');
             }
-        }
+        },
+        error: function(xhr, status, error) {
+            Toastify({
+                text: "Terjadi kesalahan: " + xhr.responseJSON.message,
+                duration: 3000,
+                gravity: "top",
+                position: "center",
+                backgroundColor: "#FF0000",
+                stopOnFocus: true,
+            }).showToast();
+        },
+        
     });
 }

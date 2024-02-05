@@ -23,6 +23,8 @@ class DasboardCotroller extends Controller
                 return redirect()->route('dashboard.analitic');
             } elseif ($user->hasRole('admin spp')) {
                 return redirect()->route('dashboard.payment');
+            } elseif ($user->hasRole('admin surat')) {
+                return redirect()->route('surat.index');
             } else {
                 // dd('error');
                 // Handle undefined roles, you can redirect to a default dashboard or show an error.
