@@ -28,6 +28,7 @@
                 <div class="card-header">
                     <h5 class="card-title mb-0">List User</h5>
                 </div>
+                <x-alert.alert />
                 <div class="card-body">
                     <table id="users" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
@@ -43,6 +44,53 @@
                         <tbody>
 
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">Ubah Data User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('dashboard.updateuserandrole') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="id" id="idedit">
+                        <div class="row g-3">
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="nameedit" type="text" label="Name" name="name" value=""
+                                        placeholder="Masukkan data name" required="true" />
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="emailedit" type="email" label="Email" name="email" value=""
+                                        placeholder="Masukkan data email" required="true" />
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-xxl-12">
+
+                                <select class="form-select" name="role" id="roleedit" required>
+                                    <option value="">Select Role</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" id="buttonmodal" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </form>
                 </div>
             </div>
         </div>
@@ -71,6 +119,20 @@
             ]
 
         });
+
+        function editForm(id) {
+            $('#exampleModalgrid').modal('show');
+            $.ajax({
+                type: "GET",
+                url: "{{ env('APP_URL') }}/dashboard/datauserandrole/" + id,
+                success: function(response) {
+                    $('#idedit').val(response.id);
+                    $('#nameedit').val(response.name);
+                    $('#emailedit').val(response.email);
+                    $('#roleedit').val(response.roles[0].id);
+                }
+            });
+        }
     </script>
 @endsection
 @section('script')

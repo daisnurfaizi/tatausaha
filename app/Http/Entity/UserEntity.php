@@ -9,15 +9,30 @@ class UserEntity
 	private $email;
 	private $password;
 	private $photo;
+	private $address;
+	private $phone;
 
 	// Constructor
-	public function __construct($name, $email, $password, $photo, $id = null)
+	public function __construct($id, $name, $email, $password, $photo, $address, $phone)
 	{
+		$this->id = $id;
 		$this->name = $name;
 		$this->email = $email;
 		$this->password = $password;
 		$this->photo = $photo;
-		$this->id = $id;
+		$this->address = $address;
+		$this->phone = $phone;
+	}
+
+
+	/**
+	 * Get the id.
+	 *
+	 * @return mixed
+	 */
+	public function getId()
+	{
+		return $this->id;
 	}
 
 
@@ -66,6 +81,39 @@ class UserEntity
 
 
 	/**
+	 * Get the address.
+	 *
+	 * @return mixed
+	 */
+	public function getAddress()
+	{
+		return $this->address;
+	}
+
+
+	/**
+	 * Get the phone.
+	 *
+	 * @return mixed
+	 */
+	public function getPhone()
+	{
+		return $this->phone;
+	}
+
+
+	/**
+	 * Set the id.
+	 *
+	 * @return mixed
+	 */
+	public function setId($value)
+	{
+		$this->id = $value;
+	}
+
+
+	/**
 	 * Set the name.
 	 *
 	 * @return mixed
@@ -108,14 +156,27 @@ class UserEntity
 		$this->photo = $value;
 	}
 
-	public function getId()
+
+	/**
+	 * Set the address.
+	 *
+	 * @return mixed
+	 */
+	public function setAddress($value)
 	{
-		return $this->id;
+		$this->address = $value;
 	}
 
-	public function setId($value)
+
+	/**
+	 * Set the phone.
+	 *
+	 * @return mixed
+	 */
+	public function setPhone($value)
 	{
-		$this->id = $value;
+		$this->phone = $value;
 	}
+
 	// Other necessary methods...
 }

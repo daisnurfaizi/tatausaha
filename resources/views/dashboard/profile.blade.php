@@ -131,8 +131,22 @@
                                     </div>
                                     <!--end col-->
 
-
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <x-form.input type="text" label="Phone" name="phone"
+                                                placeholder="Enter your phone"
+                                                value="{{ old('phone') ?? Auth::user()->phone }}" />
+                                        </div>
+                                    </div>
                                     <!--end col-->
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <x-form.input type="textarea" label="Address" name="address"
+                                                placeholder="Enter your address"
+                                                value="{{ old('address') ?? Auth::user()->address }}" />
+                                        </div>
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="hstack gap-2 justify-content-end">
                                             <button type="submit" class="btn btn-primary">Updates</button>

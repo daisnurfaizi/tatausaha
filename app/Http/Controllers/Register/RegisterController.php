@@ -8,12 +8,14 @@ use App\Http\Service\User\UserService;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
     public function showRegisterForm()
     {
-        return view('register.register');
+        $roles = Role::all();
+        return view('register.register', compact('roles'));
     }
 
     public function register(Request $request)

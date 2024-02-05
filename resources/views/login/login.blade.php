@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <strong>Whoops!</strong> There were some problems with your input. <br><br>
@@ -26,13 +27,14 @@
     @endif {{-- enderror --}}
     <div class="container">
         <div class="login">
+
             <form action="{{ route('login') }}" method="post">
                 @csrf
                 <h1>Login</h1>
                 <p>SMP Bintang Timur</p>
                 <label for="email">Email:</label>
-                <input type="text" id="email" name="email" value="test@example.com"
-                    placeholder="Enter your email" required>
+                <input type="text" id="email" name="email" value="" placeholder="Enter your email"
+                    required>
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 <label for="">Kode OTP</label>

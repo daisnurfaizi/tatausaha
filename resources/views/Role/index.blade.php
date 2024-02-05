@@ -24,12 +24,18 @@
     @endcomponent
 
     <div class="row">
+        <div class="mb-3">
+            <!-- Grids in modals -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalgrid">
+                Tambah Data Role <i class="mdi mdi-plus-circle ms-1"></i>
+            </button>
+        </div>
         <x-card title="Role">
             <table id="role" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                 style="width:100%">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        {{-- <th>No</th> --}}
                         <th>Nama Role</th>
                     </tr>
                 </thead>
@@ -39,6 +45,37 @@
             </table>
         </x-card>
 
+    </div>
+    <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+        <form action="{{ route('dashboard.addrole') }}" method="POST">
+            @csrf
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalgridLabel">Tambah Data Role</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row g-3">
+                            <div class="col-xxl-6">
+                                <div>
+                                    <label for="role" class="form-label">Role</label>
+                                    <input type="text" class="form-control" id="role" placeholder="Enter Role"
+                                        name="role">
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-lg-12">
+                                <div class="hstack gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div><!--end col-->
+                        </div><!--end row-->
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
     <script>
         $('#role').DataTable({
@@ -50,10 +87,10 @@
                     name: 'name'
                 },
 
-                {
-                    data: 'action',
-                    name: 'action'
-                }
+                // {
+                //     data: 'action',
+                //     name: 'action'
+                // }
             ]
 
         });

@@ -71,34 +71,36 @@
                         </div>
                     </li>
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#analitic" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="analitic">
-                        <i class="mdi mdi-google-analytics"></i>
-                        <span>@lang('Analytics')</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="analitic">
-                        <ul class="nav nav-sm flex-column">
-                            @if (auth()->user()->hasRole('admin'))
-                            @endif
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.analitic') }}" class="nav-link" role="button">
-                                    Data Analitic SPP
-                                </a>
+                @if (auth()->user()->hasRole('admin') ||
+                        auth()->user()->hasRole('Kepala Sekolah'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#analitic" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="analitic">
+                            <i class="mdi mdi-google-analytics"></i>
+                            <span>@lang('Analytics')</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="analitic">
+                            <ul class="nav nav-sm flex-column">
 
-                            </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.analitic') }}" class="nav-link" role="button">
+                                        Data Analitic SPP
+                                    </a>
 
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarAuth">
-                        <i class="ri-account-circle-line"></i> <span>@lang('Master Data')</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarAuth">
-                        <ul class="nav nav-sm flex-column">
-                            @if (auth()->user()->hasRole('admin'))
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+                {{-- master data --}}
+                @if (auth()->user()->hasRole('admin'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="sidebarAuth">
+                            <i class="ri-account-circle-line"></i> <span>@lang('Master Data')</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="sidebarAuth">
+                            <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a href="{{ route('register') }}" class="nav-link" role="button">Buat User
                                     </a>
@@ -117,50 +119,81 @@
                                     </a>
 
                                 </li>
-                                <li class="nav-item">
+                                {{-- <li class="nav-item">
                                     <a href="{{ route('dashboard.datauser') }}" class="nav-link"
                                         role="button">Daftar
                                         Permission
                                     </a>
 
+                                </li> --}}
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar
+                                        Murid
+                                    </a>
+
                                 </li>
-                            @endif
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar
-                                    Murid
-                                </a>
 
-                            </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
-                        </ul>
-                    </div>
-                </li>
+                @if (auth()->user()->hasRole('admin') ||
+                        auth()->user()->hasRole('admin spp'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="payment">
+                            <i class="ri-money-dollar-circle-line"></i> <span>@lang('SPP')</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="payment">
+                            <ul class="nav nav-sm flex-column">
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="payment">
-                        <i class="ri-money-dollar-circle-line"></i> <span>@lang('SPP')</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="payment">
-                        <ul class="nav nav-sm flex-column">
-                            @if (auth()->user()->hasRole('admin'))
-                            @endif
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
-                                    Data Spp
-                                </a>
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
+                                        Data Spp
+                                    </a>
 
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar
-                                    Murid
-                                </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.student') }}" class="nav-link"
+                                        role="button">Daftar
+                                        Murid
+                                    </a>
 
-                            </li>
+                                </li>
 
-                        </ul>
-                    </div>
-                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+                @if (auth()->user()->hasRole('admin') ||
+                        auth()->user()->hasRole('admin surat'))
+                    <li class="nav-item">
+                        <a class="nav-link menu-link" href="#surat" data-bs-toggle="collapse" role="button"
+                            aria-expanded="false" aria-controls="surat">
+                            <i class="mdi mdi-card-account-mail"></i>
+                            <span>@lang('Surat')</span>
+                        </a>
+                        <div class="collapse menu-dropdown" id="surat">
+                            <ul class="nav nav-sm flex-column">
+
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
+                                        Surat Masuk
+                                    </a>
+
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Buat
+                                        Surat Keluar
+                                    </a>
+
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                @endif
 
             </ul>
         </div>

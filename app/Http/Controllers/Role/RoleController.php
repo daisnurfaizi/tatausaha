@@ -24,4 +24,23 @@ class RoleController extends Controller
             })
             ->make(true);
     }
+
+    public function addrole(Request $request)
+    {
+        try {
+            if ($request->role == null) {
+                return redirect()->back()->with('error', 'Role tidak boleh kosong');
+            }
+            if (Role::where('name', $request->role)->exists()) {
+                return redirect()->back()->with('error', 'Role sudah ada');
+            }
+            Role::create([
+                'name' => $request->role,
+                'guard_name' => 'web'
+            ]);
+            return redirect()->back()->with('success', 'Role berhasil ditambahkan');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Role gagal ditambahkan');
+        }
+    }
 }
