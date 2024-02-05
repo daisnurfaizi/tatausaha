@@ -88,6 +88,12 @@
                                     </a>
 
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('surat.index') }}" class="nav-link" role="button">
+                                        Data Analitic Surat
+                                    </a>
+
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -127,7 +133,8 @@
 
                                 </li> --}}
                                 <li class="nav-item">
-                                    <a href="{{ route('dashboard.student') }}" class="nav-link" role="button">Daftar
+                                    <a href="{{ route('dashboard.student') }}" class="nav-link"
+                                        role="button">Daftar
                                         Murid
                                     </a>
 

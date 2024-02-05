@@ -44,10 +44,148 @@
                 </div>
             </form>
         </x-card>
+        <x-card title="Data Surat Masuk">
+            <table id="suratmasuk" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>No Surat</th>
+                        <th>Tangal Terima</th>
+                        <th>Pengirim</th>
+                        <th>Perihal</th>
+                        <th>File</th>
+                        <th>Keterangan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
 
+            </table>
+        </x-card>
+    </div>
+    <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel" aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">Update Data Surat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('surat.updatesurat') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" id="idedit" name="id" value="">
+                        <div class="row g-3">
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="nomorsuratedit" type="text" label="Nomor Surat"
+                                        name="nomor_surat" />
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="tanggalterimaedit" type="date" label="Tanggal Terima"
+                                        name="tanggal_terima" />
+                                </div>
+                            </div><!--end col-->
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="pengirimedit" type="text" label="Pengirim" name="pengirim" />
+                                </div>
+                            </div>
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="perihaledit" type="text" label="Perihal" name="perihal" />
+                                </div>
+                            </div>
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="lampiranedit" type="file" label="Lampiran" name="lampiran" />
+                                </div>
+                            </div>
+                            <div class="col-xxl-6">
+                                <div>
+                                    <x-form.input id="keteranganedit" type="text" label="Keterangan"
+                                        name="keterangan" />
+                                </div>
+                            </div>
+                        </div><!--end row-->
+                        <div class="col-lg-12 mt-3">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="buttonmodal" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div><!--end col-->
+                    </form>
+                </div><!--end row-->
+
+            </div>
+        </div>
+    </div>
     </div>
 
-    <script></script>
+    <script>
+        $('#suratmasuk').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('surat.getdatasuratmasuk') }}",
+            columns: [{
+                    data: null,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nomor_surat',
+                    name: 'nomor_surat'
+                },
+                {
+                    data: 'tanggal_terima',
+                    name: 'tanggal_terima'
+                },
+
+                {
+                    data: 'pengirim',
+                    name: 'pengirim'
+                },
+                {
+                    data: 'perihal',
+                    name: 'perihal'
+                },
+                {
+                    data: 'lampiran',
+                    name: 'lampiran'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+            ]
+
+        });
+
+        function editSuratMasuk(id) {
+            $('#exampleModalgrid').modal('show');
+            $.ajax({
+                url: "{{ env('APP_URL') }}/surat/getdatasuratmasukByid/" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(resrponse) {
+                    var data = resrponse.data;
+                    $('#idedit').val(data.id);
+                    $('#nomorsuratedit').val(data.nomor_surat);
+                    $('#tanggalterimaedit').val(data.tanggal_terima);
+                    $('#pengirimedit').val(data.pengirim);
+                    $('#perihaledit').val(data.perihal);
+                    $('#keteranganedit').val(data.keterangan);
+                }
+            });
+        }
+    </script>
 @endsection
 @section('script')
     <script src="{{ URL::asset('build/js/app.js') }}"></script>

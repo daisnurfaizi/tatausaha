@@ -147,11 +147,12 @@ Route::group(
         Route::controller(SuratController::class)->group(
             function () {
                 Route::get('surat', 'index')->name('index');
-                Route::get('getdatasurat', 'getDataSurat')->name('getdatasurat');
+                Route::get('getdatasuratmasuk', 'getDataSuratMasuk')->name('getdatasuratmasuk');
+                Route::get('getdatasuratkeluar', 'getDataSuratkeluar')->name('getdatasuratkeluar');
                 Route::post('addsurat', 'addSurat')->name('addsurat');
-                Route::get('editsurat/{id}', 'editSurat')->name('editsurat');
+                Route::get('getdatasuratmasukByid/{id}', 'getDataSuratMasukById')->name('getdatasuratmasukbyid');
                 Route::post('updatesurat', 'updateSurat')->name('updatesurat');
-                Route::get('deletesurat/{id}', 'deleteSurat')->name('deletesurat');
+                Route::get('deletesuratmasuk/{id}', 'deleteSuratMasuk')->name('deletesuratmasuk');
                 Route::get('suratExport', 'suratExport')->name('suratExport');
                 Route::post('suratImport', 'suratImport')->name('suratImport');
                 Route::get('suratTemplate', 'suratTemplate')->name('suratTemplate');

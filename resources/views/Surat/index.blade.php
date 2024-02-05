@@ -54,18 +54,16 @@
                             <div class="d-flex align-items-center">
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-primary-subtle text-primary rounded-2 fs-2">
-                                        <i data-feather="briefcase" class="text-primary"></i>
+                                        <i data-feather="mail" class="text-primary"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 overflow-hidden ms-3">
                                     <p class="text-uppercase fw-semibold text-muted text-truncate mb-3">Surat Masuk</p>
                                     <div class="d-flex align-items-center mb-3">
                                         <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value"
-                                                data-target="825">0</span></h4>
-                                        <span class="badge bg-danger-subtle text-danger fs-12"><i
-                                                class="ri-arrow-down-s-line fs-13 align-middle me-1"></i>5.02 %</span>
+                                                data-target="{{ $datasuratMasuk }}">0</span></h4>
                                     </div>
-                                    <p class="text-muted text-truncate mb-0">Projects this month</p>
+
                                 </div>
                             </div>
                         </div><!-- end card body -->
@@ -78,18 +76,16 @@
                             <div class="d-flex align-items-center">
                                 <div class="avatar-sm flex-shrink-0">
                                     <span class="avatar-title bg-warning-subtle text-warning rounded-2 fs-2">
-                                        <i data-feather="award" class="text-warning"></i>
+                                        <i data-feather="mail" class="text-warning"></i>
                                     </span>
                                 </div>
                                 <div class="flex-grow-1 ms-3">
                                     <p class="text-uppercase fw-semibold text-truncate text-muted mb-3">Surat Keluar</p>
                                     <div class="d-flex align-items-center mb-3">
                                         <h4 class="fs-4 flex-grow-1 mb-0"><span class="counter-value"
-                                                data-target="7522">0</span></h4>
-                                        <span class="badge bg-success-subtle text-success fs-12"><i
-                                                class="ri-arrow-up-s-line fs-13 align-middle me-1"></i>3.58 %</span>
+                                                data-target="{{ $dataSuratKeluar }}">0</span></h4>
+
                                     </div>
-                                    <p class="text-muted mb-0">Leads this month</p>
                                 </div>
                             </div>
                         </div><!-- end card body -->
@@ -102,6 +98,124 @@
 
         </div><!-- end col -->
     </div><!-- end row -->
+    <x-card title="Data Surat Masuk">
+        <table id="suratmasuk" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+            style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>No Surat</th>
+                    <th>Tangal Terima</th>
+                    <th>Pengirim</th>
+                    <th>Perihal</th>
+                    <th>File</th>
+                    <th>Keterangan</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+        </table>
+    </x-card>
+    <x-card title="Data Surat Keluar">
+        <table id="suratkeluar" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+            style="width:100%">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>No Surat</th>
+                    <th>Tangal kirim</th>
+                    <th>Tujuan</th>
+                    <th>Perihal</th>
+                    <th>Lampiran</th>
+                    <th>Keterangan</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+        </table>
+    </x-card>
+    <script>
+        $('#suratmasuk').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('surat.getdatasuratmasuk') }}",
+            columns: [{
+                    data: null,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nomor_surat',
+                    name: 'nomor_surat'
+                },
+                {
+                    data: 'tanggal_terima',
+                    name: 'tanggal_terima'
+                },
+
+                {
+                    data: 'pengirim',
+                    name: 'pengirim'
+                },
+                {
+                    data: 'perihal',
+                    name: 'perihal'
+                },
+                {
+                    data: 'lampiran',
+                    name: 'lampiran'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+
+            ]
+
+        });
+        $('#suratkeluar').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('surat.getdatasuratkeluar') }}",
+            columns: [{
+                    data: null,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nomor_surat',
+                    name: 'nomor_surat'
+                },
+                {
+                    data: 'tanggal_terima',
+                    name: 'tanggal_terima'
+                },
+
+                {
+                    data: 'pengirim',
+                    name: 'pengirim'
+                },
+                {
+                    data: 'perihal',
+                    name: 'perihal'
+                },
+                {
+                    data: 'lampiran',
+                    name: 'lampiran'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+
+            ]
+
+        });
+    </script>
 @endsection
 @section('script')
     <!-- apexcharts -->
