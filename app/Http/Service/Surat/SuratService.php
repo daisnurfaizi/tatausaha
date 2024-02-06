@@ -58,7 +58,7 @@ class SuratService
             'perihal' => 'required',
             'keterangan' => 'sometimes',
             'lampiran' => 'required|mimes:pdf,doc,docx,png,jpg' | 'max:2048',
-            'status' => 'required'
+            'status' => 'sometimes|required'
         ];
         $message = [
             'nomor_surat.required' => 'Nomor Surat tidak boleh kosong',
@@ -79,23 +79,23 @@ class SuratService
         }
     }
 
-    protected function builderSuratKeluar($request): SuratKeluarModelEntity
+    protected function builderSuratKeluar($request, $pdfpath = null): SuratKeluarModelEntity
     {
         $suratBuilder = (new SuratKeluarModelEntityBuilder);
         if (!empty($request->id)) {
             $suratBuilder->setId($request->id);
         }
-        if ($request->hasFile('lampiran')) {
-            $lampiran = $this->uploadFile($request->lampiran, 'lampiran/surat_masuk');
-            $suratBuilder->setLampiran($lampiran);
+        if ($request->status == 'DRAFT') {
+            $suratBuilder->setStatus('DRAFT');
+        } else {
+            $suratBuilder->setStatus('PUBLISH');
         }
         $suratBuilder->setNomorSurat($request->nomor_surat)
             ->setTanggalKirim($request->tanggal_kirim)
             ->setTujuan($request->tujuan)
             ->setPerihal($request->perihal)
-            ->setKeterangan($request->keterangan)
-
-            ->setStatus($request->status);
+            ->setLampiran($pdfpath)
+            ->setKeterangan($request->keterangan);
         return $suratBuilder->build();
     }
 

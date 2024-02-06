@@ -34,7 +34,7 @@ class TemplateSuratService
                 return redirect()->back()->with('success', 'Data berhasil disimpan');
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'Data gagal disimpan');
+            return redirect()->back()->withErrors('error', 'Data gagal disimpan');
         }
     }
 }

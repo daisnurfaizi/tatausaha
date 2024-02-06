@@ -34,7 +34,8 @@ class SuratController extends Controller
 
     public function suratKeluar()
     {
-        return view('Surat.suratKeluar');
+        $kop = Template::where('name', 'kop')->first();
+        return view('Surat.suratKeluar', compact('kop'));
     }
 
     public function addSurat(Request $request)
@@ -90,5 +91,11 @@ class SuratController extends Controller
     {
         $surat = new SuratKeluarService(new SuratRepository(new SuratKeluarModel()));
         return $surat->getDataSuratKeluar();
+    }
+
+    public function addSuratKeluar(Request $request)
+    {
+        $surat = new SuratKeluarService(new SuratRepository(new SuratKeluarModel()));
+        return $surat->addMailOut($request);
     }
 }

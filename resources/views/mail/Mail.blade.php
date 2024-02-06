@@ -19,7 +19,7 @@
 
     <div class="row">
         <x-card title="Kop Surat">
-            <form method="post" action="{{ route('dashboard.createkop') }}">
+            <form method="post" action="{{ route('kop.createkop') }}">
                 @csrf
                 <textarea id="editor" name="content">
                     @if ($kop != null)

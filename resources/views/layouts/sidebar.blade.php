@@ -196,6 +196,12 @@
                                     </a>
 
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('kop.index') }}" class="nav-link" role="button">Buat
+                                        Kop Surat
+                                    </a>
+
+                                </li>
 
                             </ul>
                         </div>

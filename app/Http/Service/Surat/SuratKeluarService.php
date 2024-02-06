@@ -4,6 +4,7 @@ namespace App\Http\Service\Surat;
 
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use App\Helper\GeneratePdfHelper;
 
 // change to your repository
 class SuratKeluarService extends SuratService
@@ -17,9 +18,11 @@ class SuratKeluarService extends SuratService
     public function addMailOut($request)
     {
         try {
+            // dd($request->all());
             DB::beginTransaction();
+            $pdfPath = GeneratePdfHelper::generate('Surat.Surat', $request);
             $this->validationSuratKeluar($request);
-            $suratKeluar = $this->builderSuratKeluar($request);
+            $suratKeluar = $this->builderSuratKeluar($request, $pdfPath);
             $this->repository->createByEntity($suratKeluar);
             DB::commit();
             return redirect()->back()->with('success', 'Data berhasil ditambahkan');

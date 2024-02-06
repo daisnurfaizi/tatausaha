@@ -20,35 +20,24 @@
             Pages
         @endslot
         @slot('title')
-            Surat Keluar
+            Kop Surat
         @endslot
     @endcomponent
 
     <div class="row">
         <x-card title="Surat Keluar">
-            <form action="{{ route('surat.addsuratkeluar') }}" method="POST" enctype="multipart/form-data">
+            <form method="post" action="{{ route('kop.createkop') }}">
                 @csrf
-                <x-form.input id="nomor_surat" type="text" label="Nomor Surat" name="nomor_surat" value=""
-                    placeholder="Masukkan Nomor Surat" />
-                <x-form.input id="tanggal_kirim" type="date" label="Tanggal Surat" name="tanggal_kirim" value=""
-                    placeholder="Masukkan Tanggal Surat" />
-                {{-- tujuan --}}
-                <x-form.input id="tujuan" type="text" label="Tujuan" name="tujuan" value=""
-                    placeholder="Masukkan Tujuan" />
-                <x-form.input id="perihal" type="text" label="Perihal" name="perihal" value=""
-                    placeholder="Masukkan Perihal" />
-                {{-- keterangan --}}
-                <x-form.input id="keterangan" type="text" label="Keterangan" name="keterangan" value=""
-                    placeholder="Masukkan Keterangan" />
-                <label for="content">Isi Surat</label>
-                <textarea id="content" name="content">
 
-                    </textarea>
-                <x-form.input id="keterangan" type="text" label="Keterangan" name="keterangan" value=""
-                    placeholder="Masukkan Keterangan" />
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
+                <textarea id="editor" name="content">
+                    @if ($kop != null)
+{!! $kop->content !!}
+@endif
+                </textarea>
+
+                <!-- Add any other form fields if needed -->
+
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </x-card>
         <x-card title="Data Surat Keluar">
@@ -59,7 +48,7 @@
 
 
     <script>
-        CKEDITOR.replace('content', {
+        CKEDITOR.replace('editor', {
             extraPlugins: 'divarea'
         });
     </script>

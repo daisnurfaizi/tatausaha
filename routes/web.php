@@ -15,6 +15,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Student\StudentController;
+use App\Http\Controllers\Surat\KopController;
 use App\Http\Controllers\Surat\SuratController;
 
 /*
@@ -109,12 +110,6 @@ Route::group(
                 Route::get('mail', 'index')->name('mail');
             }
         );
-
-        Route::controller(SuratController::class)->group(
-            function () {
-                Route::post('createkop', 'createKop')->name('createkop');
-            }
-        );
     }
 );
 // profile
@@ -159,6 +154,24 @@ Route::group(
                 Route::get('suratTemplate', 'suratTemplate')->name('suratTemplate');
                 Route::get('suratMasuk', 'suratMasuk')->name('suratMasuk');
                 Route::get('suratKeluar', 'suratKeluar')->name('suratKeluar');
+                Route::post('addsuratkeluar', 'addSuratKeluar')->name('addsuratkeluar');
+            }
+        );
+    }
+);
+
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'kop',
+        'as' => 'kop.'
+    ],
+    function () {
+        Route::controller(KopController::class)->group(
+            function () {
+                Route::get('/', 'index')->name('index');
+                Route::get('showKop', 'showKop')->name('showkop');
+                Route::post('createkop', 'createKop')->name('createkop');
             }
         );
     }
