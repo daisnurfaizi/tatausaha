@@ -52,7 +52,24 @@
             </form>
         </x-card>
         <x-card title="Data Surat Keluar">
+            <table id="suratkeluar" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                style="width:100%">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>No Surat</th>
+                        <th>Tangal kirim</th>
+                        <th>Tujuan</th>
+                        <th>Perihal</th>
+                        <th>Lampiran</th>
+                        <th>Keterangan</th>
+                        <th>Aksi</th>
 
+                    </tr>
+                </thead>
+                <tbody>
+
+            </table>
         </x-card>
     </div>
 
@@ -61,6 +78,49 @@
     <script>
         CKEDITOR.replace('content', {
             extraPlugins: 'divarea'
+        });
+        $('#suratkeluar').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('surat.getdatasuratkeluar') }}",
+            columns: [{
+                    data: null,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    data: 'nomor_surat',
+                    name: 'nomor_surat'
+                },
+                {
+                    data: 'tanggal_kirim',
+                    name: 'tanggal_kirim'
+                },
+
+                {
+                    data: 'tujuan',
+                    name: 'tujuan'
+                },
+                {
+                    data: 'perihal',
+                    name: 'perihal'
+                },
+                {
+                    data: 'lampiran',
+                    name: 'lampiran'
+                },
+                {
+                    data: 'keterangan',
+                    name: 'keterangan'
+                },
+                {
+                    data: 'action',
+                    name: 'action'
+                }
+
+            ]
+
         });
     </script>
 @endsection

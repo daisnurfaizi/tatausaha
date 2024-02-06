@@ -191,13 +191,13 @@
                     name: 'nomor_surat'
                 },
                 {
-                    data: 'tanggal_terima',
-                    name: 'tanggal_terima'
+                    data: 'tanggal_kirim',
+                    name: 'tanggal_kirim'
                 },
 
                 {
-                    data: 'pengirim',
-                    name: 'pengirim'
+                    data: 'tujuan',
+                    name: 'tujuan'
                 },
                 {
                     data: 'perihal',

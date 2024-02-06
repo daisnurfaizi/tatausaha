@@ -155,6 +155,8 @@ Route::group(
                 Route::get('suratMasuk', 'suratMasuk')->name('suratMasuk');
                 Route::get('suratKeluar', 'suratKeluar')->name('suratKeluar');
                 Route::post('addsuratkeluar', 'addSuratKeluar')->name('addsuratkeluar');
+                // delete surat keluar
+                Route::get('deletesuratkeluar/{id}', 'deleteSuratKeluar')->name('deletesuratkeluar');
             }
         );
     }

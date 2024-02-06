@@ -64,10 +64,15 @@ class SuratKeluarService extends SuratService
     {
         $data = $this->repository->getAll();
         return DataTables::of($data)
-            ->addColumn('action', function ($data) {
-                return '<a href="' . route('surat-keluar.edit', $data->id) . '" class="btn btn-primary btn-sm">Edit</a>
-                <a href="' . route('surat-keluar.delete', $data->id) . '" class="btn btn-danger btn-sm">Delete</a>';
+            ->addColumn('lampiran', function ($data) {
+                return '<a href="' . $data->lampiran . '" class="btn btn-primary btn-sm">Download</a>';
             })
+            ->addColumn('action', function ($data) {
+                // delete button
+                $button = '<a href="' . route('surat.deletesuratkeluar', $data->id) . '" class="btn btn-danger btn-sm">Delete</a>';
+                return $button;
+            })
+            ->rawColumns(['lampiran', 'action'])
             ->make(true);
     }
 
