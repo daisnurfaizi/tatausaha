@@ -173,6 +173,72 @@
 
 
     </div>
+    <div class="row">
+        <div class="col-xl-4">
+            <div class="card card-height-100">
+                <div class="card-header align-items-center d-flex">
+                    <h4 class="card-title mb-0 flex-grow-1">Toal Siswa Yang Sudah Bayar pada bulan ini</h4>
+                    <div class="flex-shrink-0">
+                        <div class="dropdown card-header-dropdown">
+                            <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <span class="text-muted fs-16"><i class="mdi mdi-dots-vertical align-middle"></i></span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div><!-- end card header -->
+                <div class="card-body">
+                    <div id="siswadata" data-colors='["--vz-primary", "--vz-warning", "--vz-info"]' class="apex-charts"
+                        dir="ltr"></div>
+
+                    <div class="table-responsive mt-3">
+                        <table class="table table-borderless table-sm table-centered align-middle table-nowrap mb-0">
+                            <tbody class="border-0">
+                                <tr>
+                                    <td>
+                                        <h4 class="text-truncate fs-14 mb-0"><i
+                                                class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Siswa yang
+                                            Sudah Bayar</h4>
+                                    </td>
+                                    <td>
+                                        <p class="text-muted mb-0"><i data-feather="users"
+                                                class="me-2 icon-sm"></i>{{ $paidStudent }}
+                                        </p>
+                                    </td>
+                                    <td class="text-end">
+                                        <p class="text-success fw-medium fs-13 mb-0"><i
+                                                class="ri-arrow-up-s-fill fs-5 align-middle"></i>{{ ($paidStudent / $totalSiswa) * 100 }}%
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h4 class="text-truncate fs-14 mb-0"><i
+                                                class="ri-stop-fill align-middle fs-18 text-warning me-2"></i>Siswa yang
+                                            Belum Bayar</h4>
+                                    </td>
+                                    <td>
+                                        <p class="text-muted mb-0"><i data-feather="users"
+                                                class="me-2 icon-sm"></i>{{ $studentUnpaid }}
+                                        </p>
+                                    </td>
+                                    <td class="text-end">
+                                        <p class="text-danger fw-medium fs-13 mb-0"><i
+                                                class="ri-arrow-down-s-fill fs-5 align-middle"></i>{{ ($studentUnpaid / $totalSiswa) * 100 }}%
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- end card body -->
+            </div><!-- end card -->
+        </div><!-- end col -->
+
+
+
+    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="card-title mb-0">Data Pembayaran</h5>
@@ -396,6 +462,18 @@
                 }
             ],
         })
+
+        function getDataSiswaBelumBayar() {
+            $.ajax({
+                url: "{{ route('dashboard.getDataSiswaBelumBayar') }}",
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+
+        }
     </script>
 @endsection
 @section('script')
@@ -403,8 +481,93 @@
     <script src="{{ URL::asset('build/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
     <script src="{{ URL::asset('build/libs/jsvectormap/maps/world-merc.js') }}"></script>
+    <script>
+        var studentPaid = {{ $paidStudent }};
+        var studentUnpaid = {{ $studentUnpaid }};
+        console.log(studentPaid);
 
+        function getChartColorsArray(chartId) {
+            if (document.getElementById(chartId) !== null) {
+                var colors = document.getElementById(chartId).getAttribute("data-colors");
+                if (colors) {
+                    colors = JSON.parse(colors);
+                    return colors.map(function(value) {
+                        var newValue = value.replace(" ", "");
+                        if (newValue.indexOf(",") === -1) {
+                            var color = getComputedStyle(document.documentElement).getPropertyValue(newValue);
+                            if (color) return color;
+                            else return newValue;;
+                        } else {
+                            var val = value.split(',');
+                            if (val.length == 2) {
+                                var rgbaColor = getComputedStyle(document.documentElement).getPropertyValue(val[0]);
+                                rgbaColor = "rgba(" + rgbaColor + "," + val[1] + ")";
+                                return rgbaColor;
+                            } else {
+                                return newValue;
+                            }
+                        }
+                    });
+                } else {
+                    console.warn('data-colors atributes not found on', chartId);
+                }
+            }
+        }
+        var dountchartUserDeviceColors = getChartColorsArray("siswadata");
+        if (dountchartUserDeviceColors) {
+            var options = {
+                series: [studentPaid, studentUnpaid],
+                labels: ["Sudah Bayar", "Belum Bayar"],
+                chart: {
+                    type: "donut",
+                    height: 219,
+                },
+                plotOptions: {
+                    pie: {
+                        size: 100,
+                        donut: {
+                            size: "76%",
+                        },
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                legend: {
+                    show: false,
+                    position: 'bottom',
+                    horizontalAlign: 'center',
+                    offsetX: 0,
+                    offsetY: 0,
+                    markers: {
+                        width: 20,
+                        height: 6,
+                        radius: 2,
+                    },
+                    itemMargin: {
+                        horizontal: 12,
+                        vertical: 0
+                    },
+                },
+                stroke: {
+                    width: 0
+                },
+                yaxis: {
+                    labels: {
+                        formatter: function(value) {
+                            return value;
+                        }
+                    },
+                    tickAmount: 4,
+                    min: 0
+                },
+                colors: dountchartUserDeviceColors,
+            };
+            var chart = new ApexCharts(document.querySelector("#siswadata"), options);
+            chart.render();
+        }
+    </script>
     <!-- dashboard init -->
-    <script src="{{ URL::asset('build/js/pages/dashboard-analytics.init.js') }}"></script>
+
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

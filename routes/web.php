@@ -82,6 +82,7 @@ Route::group(
         Route::controller(AnalitcController::class)->group(
             function () {
                 Route::get('analitic', 'index')->name('analitic');
+                Route::get('getDataSiswaBelumBayar', 'getDataSiswaBelumBayar')->name('getDataSiswaBelumBayar');
             }
         );
 
