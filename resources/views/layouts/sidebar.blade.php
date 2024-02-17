@@ -71,33 +71,37 @@
                         </div>
                     </li>
                 @endif
-                @if (auth()->user()->hasRole('admin') ||
-                        auth()->user()->hasRole('Kepala Sekolah'))
-                    <li class="nav-item">
-                        <a class="nav-link menu-link" href="#analitic" data-bs-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="analitic">
-                            <i class="mdi mdi-google-analytics"></i>
-                            <span>@lang('Analytics')</span>
-                        </a>
-                        <div class="collapse menu-dropdown" id="analitic">
-                            <ul class="nav nav-sm flex-column">
-
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#analitic" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="analitic">
+                        <i class="mdi mdi-google-analytics"></i>
+                        <span>@lang('Analytics')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="analitic">
+                        <ul class="nav nav-sm flex-column">
+                            @if (auth()->user()->hasRole('admin') ||
+                                    auth()->user()->hasRole('Kepala Sekolah') ||
+                                    auth()->user()->hasRole('admin spp'))
                                 <li class="nav-item">
                                     <a href="{{ route('dashboard.analitic') }}" class="nav-link" role="button">
                                         Data Analitic SPP
                                     </a>
 
                                 </li>
+                            @endif
+                            @if (auth()->user()->hasRole('admin') ||
+                                    auth()->user()->hasRole('admin surat') ||
+                                    auth()->user()->hasRole('Kepala Sekolah'))
                                 <li class="nav-item">
                                     <a href="{{ route('surat.index') }}" class="nav-link" role="button">
                                         Data Analitic Surat
                                     </a>
 
                                 </li>
-                            </ul>
-                        </div>
-                    </li>
-                @endif
+                            @endif
+                        </ul>
+                    </div>
+                </li>
                 {{-- master data --}}
                 @if (auth()->user()->hasRole('admin'))
                     <li class="nav-item">
@@ -145,8 +149,7 @@
                     </li>
                 @endif
 
-                @if (auth()->user()->hasRole('admin') ||
-                        auth()->user()->hasRole('admin spp'))
+                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('admin spp'))
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="payment">
@@ -173,8 +176,7 @@
                         </div>
                     </li>
                 @endif
-                @if (auth()->user()->hasRole('admin') ||
-                        auth()->user()->hasRole('admin surat'))
+                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('admin surat'))
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#surat" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="surat">

@@ -22,7 +22,7 @@ class DasboardCotroller extends Controller
             } elseif ($user->hasRole('Kepala Sekolah')) {
                 return redirect()->route('dashboard.analitic');
             } elseif ($user->hasRole('admin spp')) {
-                return redirect()->route('dashboard.payment');
+                return redirect()->route('dashboard.analitic');
             } elseif ($user->hasRole('admin surat')) {
                 return redirect()->route('surat.index');
             } else {
