@@ -142,7 +142,7 @@ class PaymentService
         DB::beginTransaction();
         try {
             $this->validatePayment($request);
-            $this->chekPyment($request->nisn, $request->month, $request->payment_date);
+            // $this->chekPyment($request->nisn, $request->month, $request->payment_date);
             $paymentData = $this->builderPayment($request);
             $this->repository->updateDetailBy($paymentData, 'getId', 'id');
             DB::commit();
