@@ -5,6 +5,9 @@
 <script src="{{ URL::asset('build/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
 <script src="{{ URL::asset('build/js/plugins.js') }}"></script>
 <script>
+    // remove count down in local storage
+    localStorage.removeItem('countDownDate');
+
     function toggleTheme() {
 
         var htmlElement = document.documentElement;
