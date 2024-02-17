@@ -103,32 +103,41 @@
                     </div>
                 </li>
                 {{-- master data --}}
-                @if (auth()->user()->hasRole('admin'))
+                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('Kepala Sekolah'))
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarAuth">
                             <i class="ri-account-circle-line"></i> <span>@lang('Master Data')</span>
                         </a>
                         <div class="collapse menu-dropdown" id="sidebarAuth">
+
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a href="{{ route('register') }}" class="nav-link" role="button">Buat User
-                                    </a>
+                                @if (auth()->user()->hasRole('admin'))
+                                    <li class="nav-item">
+                                        <a href="{{ route('register') }}" class="nav-link" role="button">Buat User
+                                        </a>
 
-                                </li>
+                                    </li>
+                                @endif
                                 {{-- permission --}}
-                                <li class="nav-item">
-                                    <a href="{{ route('dashboard.datauser') }}" class="nav-link" role="button">Daftar
-                                        User
-                                    </a>
+                                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('Kepala Sekolah'))
+                                    <li class="nav-item">
+                                        <a href="{{ route('dashboard.datauser') }}" class="nav-link"
+                                            role="button">Daftar
+                                            User
+                                        </a>
 
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('dashboard.role') }}" class="nav-link" role="button">Daftar
-                                        Role
-                                    </a>
+                                    </li>
+                                @endif
+                                @if (auth()->user()->hasRole('admin'))
+                                    <li class="nav-item">
+                                        <a href="{{ route('dashboard.role') }}" class="nav-link"
+                                            role="button">Daftar
+                                            Role
+                                        </a>
 
-                                </li>
+                                    </li>
+                                @endif
                                 {{-- <li class="nav-item">
                                     <a href="{{ route('dashboard.datauser') }}" class="nav-link"
                                         role="button">Daftar
@@ -136,14 +145,15 @@
                                     </a>
 
                                 </li> --}}
-                                <li class="nav-item">
-                                    <a href="{{ route('dashboard.student') }}" class="nav-link"
-                                        role="button">Daftar
-                                        Murid
-                                    </a>
+                                @if (auth()->user()->hasRole('admin'))
+                                    <li class="nav-item">
+                                        <a href="{{ route('dashboard.student') }}" class="nav-link"
+                                            role="button">Daftar
+                                            Murid
+                                        </a>
 
-                                </li>
-
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                     </li>

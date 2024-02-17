@@ -37,7 +37,9 @@
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Action</th>
+                                @if (auth()->user()->hasRole('admin'))
+                                    <th>Action</th>
+                                @endif
                             </tr>
                         </thead>
 
@@ -113,8 +115,10 @@
                     name: 'role'
                 },
                 {
+
                     data: 'action',
-                    name: 'action'
+                    name: 'action',
+                    visible: "{{ auth()->user()->hasRole('admin') }}",
                 },
             ]
 

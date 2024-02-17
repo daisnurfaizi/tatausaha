@@ -44,8 +44,7 @@
                 <textarea id="content" name="content">
 
                     </textarea>
-                <x-form.input id="keterangan" type="text" label="Keterangan" name="keterangan" value=""
-                    placeholder="Masukkan Keterangan" />
+
                 <div class="mt-3">
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
