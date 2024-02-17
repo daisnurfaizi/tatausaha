@@ -26,7 +26,7 @@ class PaymentService
         DB::beginTransaction();
         try {
             $this->validatePayment($request);
-            $this->chekPyment($request->nisn, $request->month, $request->payment_date);
+            $this->chekPyment($request);
             $paymentData = $this->builderPayment($request);
             $this->repository->createByEntity($paymentData);
 
@@ -174,11 +174,11 @@ class PaymentService
         return $paymentData->build();
     }
 
-    private function chekPyment($nisn, $month, $date)
+    private function chekPyment($request)
     {
-        $dataPembayaran = $this->repository->checkPayment($nisn, $month, $date);
+        $dataPembayaran = $this->repository->checkPayment($request->nisn, $request->month, $request->payment_date);
         if ($dataPembayaran) {
-            throw new \Exception('Siswa sudah membayar tagihan bulan ' . $dataPembayaran->month);
+            throw new \Exception('Siswa ' . $dataPembayaran->student->name . ' sudah membayar tagihan bulan ' . $dataPembayaran->month);
         }
     }
 
