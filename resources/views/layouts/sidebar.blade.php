@@ -159,7 +159,8 @@
                     </li>
                 @endif
 
-                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('admin spp'))
+                {{-- @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('admin spp')) --}}
+                @if (auth()->user()->hasRole('admin spp'))
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#payment" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="payment">
@@ -186,7 +187,8 @@
                         </div>
                     </li>
                 @endif
-                @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('admin surat'))
+                {{-- @if (auth()->user()->hasRole('admin') || auth()->user()->hasRole('admin surat')) --}}
+                @if (auth()->user()->hasRole('admin surat'))
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#surat" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="surat">
