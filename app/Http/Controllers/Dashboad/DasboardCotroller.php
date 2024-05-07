@@ -65,4 +65,10 @@ class DasboardCotroller extends Controller
         $userService = new UserService(new UserRepository(new User()));
         return $userService->updateUser($request);
     }
+
+    public function changeStatusUser($id)
+    {
+        $userService = new UserService(new UserRepository(new User()));
+        return $userService->changeStatusUser($id);
+    }
 }

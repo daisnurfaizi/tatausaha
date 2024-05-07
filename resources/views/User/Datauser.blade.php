@@ -40,6 +40,7 @@
                                 @if (auth()->user()->hasRole('admin'))
                                     <th>Action</th>
                                 @endif
+                                <th>Status</th>
                             </tr>
                         </thead>
 
@@ -113,6 +114,10 @@
                 {
                     data: 'role',
                     name: 'role'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
 

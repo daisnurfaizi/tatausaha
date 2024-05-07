@@ -53,18 +53,26 @@ class UserService
                 $roles = $row->getRoleNames()->first();
                 return $roles;
             })
+            ->addColumn('status', function ($row) {
+                return '<span class="badge bg-' . ($row->status == 'active' ? 'success' : 'danger') . '">' . $row->status . '</span>';
+            })
             ->addColumn('action', function ($row) {
                 $viewBtn = '<button type="button" class="edit btn btn-primary btn-sm" onclick="editForm(' . $row->id . ')">View</button>';
                 $deleteBtn = '<a href="' . route('dashboard.deleteuser', $row->id) . '" class="edit btn btn-danger btn-sm">Delete</a>';
+                if ($row->status == 'active') {
+                    $statusBtn = '<a href="' . route('dashboard.changestatususer', $row->id) . '" class="edit btn btn-warning btn-sm">Inactive</a>';
+                } else {
+                    $statusBtn = '<a href="' . route('dashboard.changestatususer', $row->id) . '" class="edit btn btn-success btn-sm">Active</a>';
+                }
 
                 // Hanya menampilkan tombol "View" jika user yang sedang login bukan user yang sedang ditampilkan
                 if ($row->id == Auth::user()->id) {
                     return $viewBtn;
                 } else {
-                    return $viewBtn . ' ' . $deleteBtn;
+                    return $viewBtn . ' ' . $statusBtn;
                 }
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'status'])
             ->make(true);
     }
 
@@ -102,5 +110,17 @@ class UserService
             DB::rollBack();
             return redirect()->back()->with('error', 'User update failed!');
         }
+    }
+
+    public function changeStatusUser($id)
+    {
+        $user = $this->repository->getModels()::where('id', $id)->first();
+        if ($user->status == 'active') {
+            $user->status = 'inactive';
+        } else {
+            $user->status = 'active';
+        }
+        $user->save();
+        return redirect()->back()->with('success', 'Change ' . $user->name . ' status ' . $user->status . ' successfully!');
     }
 }

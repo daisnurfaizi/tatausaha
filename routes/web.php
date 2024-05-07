@@ -46,6 +46,7 @@ Route::group(
                 Route::get('deleteuser/{id}', 'deleteUser')->name('deleteuser');
                 Route::get('datauserandrole/{id}', 'datauserandrole')->name('datauserandrole');
                 Route::post(('updateuserandrole'), 'edituser')->name('updateuserandrole');
+                Route::get('changestatususer/{id}', 'changeStatusUser')->name('changestatususer');
             }
         );
         Route::controller(StudentController::class)->group(
