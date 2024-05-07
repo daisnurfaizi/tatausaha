@@ -61,6 +61,7 @@ Route::group(
                 Route::get('studentExport', 'studentExport')->name('studentExport');
                 Route::post('studentImport', 'studentImport')->name('studentImport');
                 Route::get('studentTemplate', 'studentTemplate')->name('studentTemplate');
+                Route::get('activatestudent/{id}', 'activateStudent')->name('activatestudent');
             }
         );
 

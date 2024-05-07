@@ -97,6 +97,7 @@
                                 <th>No</th>
                                 <th>Nisn</th>
                                 <th>Nama</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -164,6 +165,10 @@
                 {
                     data: 'name',
                     name: 'name'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
                 },
                 {
                     data: 'action',

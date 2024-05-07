@@ -61,4 +61,10 @@ class StudentController extends Controller
         $sudentExcel = new StudentExcelService();
         return $sudentExcel->importStudent($request);
     }
+
+    public function activateStudent($nisn)
+    {
+        $studentService = new DeleteStudentService(new StudentRepository(new Student()));
+        return $studentService->activateStudent($nisn);
+    }
 }

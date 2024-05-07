@@ -15,19 +15,26 @@ class GetDataStudentService
 
     public function getAllStudent($datatable = true)
     {
-        $student = $this->repository->getAll('name', 'asc');
+        $student = $this->repository->getModels()::select('id', 'nisn', 'name', 'status')
+            ->withTrashed()->get();
 
         if ($datatable) {
             return DataTables::of($student)
                 ->addColumn('action', function ($student) {
                     $editButton = '<button class="btn btn-sm btn-warning" onclick="editStudent(' . $student->id . ',\'' . $student->nisn . '\',\'' . $student->name . '\')">Edit</button>';
-                    $deleteButton = '<a href="' . route('dashboard.deletestudent', $student->nisn) . '" class="btn btn-sm btn-danger">Delete</a>';
+                    if ($student->status == 'active') {
+                        $deleteButton = '<a href="' . route('dashboard.deletestudent', $student->nisn) . '" class="btn btn-sm btn-danger">Non Active</a>';
+                    } else {
+                        $deleteButton = '<a href="' . route('dashboard.activatestudent', $student->nisn) . '" class="btn btn-sm btn-success">Active</a>';
+                    }
 
                     return $editButton . ' ' . $deleteButton;
                 })
-
+                ->addColumn('status', function ($student) {
+                    return '<span class="badge bg-' . ($student->status == 'active' ? 'success' : 'danger') . '">' . $student->status . '</span>';
+                })
                 ->addIndexColumn()
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->make(true);
         } else {
             return $student;
