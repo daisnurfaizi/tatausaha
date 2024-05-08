@@ -104,4 +104,17 @@ class SuratController extends Controller
         $surat = new SuratKeluarService(new SuratRepository(new SuratKeluarModel()));
         return $surat->deleteMailOut($id);
     }
+    // get data surat keluar by id
+    public function getDataSuratKeluarById($id)
+    {
+        $surat = new SuratKeluarService(new SuratRepository(new SuratKeluarModel()));
+        return $surat->getDataSuratKeluarById($id);
+    }
+    // update surat keluar
+
+    public function updateSuratKeluar(Request $request)
+    {
+        $surat = new SuratKeluarService(new SuratRepository(new SuratKeluarModel()));
+        return $surat->updateMailOut($request);
+    }
 }

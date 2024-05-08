@@ -12,12 +12,14 @@ class SuratKeluarModel extends Model
     protected $table = 'surat_keluar';
 
     protected $fillable = [
+        'id',
         'nomor_surat',
         'tanggal_kirim',
         'tujuan',
         'perihal',
         'keterangan',
         'lampiran',
+        'content',
         'status'
     ];
 }

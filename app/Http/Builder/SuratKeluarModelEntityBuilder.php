@@ -11,6 +11,7 @@ class SuratKeluarModelEntityBuilder
 	private $perihal;
 	private $keterangan;
 	private $lampiran;
+	private $content;
 	private $status;
 
 
@@ -106,6 +107,19 @@ class SuratKeluarModelEntityBuilder
 
 
 	/**
+	 * Set the content.
+	 *
+	 * @param mixed $content
+	 * @return $this
+	 */
+	public function setContent($content)
+	{
+		$this->content = $content;
+		return $this;
+	}
+
+
+	/**
 	 * Set the status.
 	 *
 	 * @param mixed $status
@@ -134,6 +148,7 @@ class SuratKeluarModelEntityBuilder
 			$this->perihal,
 			$this->keterangan,
 			$this->lampiran,
+			$this->content,
 			$this->status,
 		);
 	}

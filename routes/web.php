@@ -159,6 +159,10 @@ Route::group(
                 Route::post('addsuratkeluar', 'addSuratKeluar')->name('addsuratkeluar');
                 // delete surat keluar
                 Route::get('deletesuratkeluar/{id}', 'deleteSuratKeluar')->name('deletesuratkeluar');
+                // get data surat keluar by id
+                Route::get('getdatasuratkeluarbyid/{id}', 'getDataSuratKeluarById')->name('getdatasuratkeluarbyid');
+                // update surat keluar
+                Route::post('updatesuratkeluar', 'updateSuratKeluar')->name('updatesuratkeluar');
             }
         );
     }

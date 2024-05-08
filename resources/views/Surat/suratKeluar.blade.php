@@ -26,8 +26,11 @@
 
     <div class="row">
         <x-card title="Surat Keluar">
-            <form action="{{ route('surat.addsuratkeluar') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('surat.addsuratkeluar') }}" id="formSuratKeluar" method="POST"
+                enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="id" id="id">
+                {{-- nomor surat --}}
                 <x-form.input id="nomor_surat" type="text" label="Nomor Surat" name="nomor_surat" value=""
                     placeholder="Masukkan Nomor Surat" />
                 <x-form.input id="tanggal_kirim" type="date" label="Tanggal Surat" name="tanggal_kirim" value=""
@@ -46,7 +49,8 @@
                     </textarea>
 
                 <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
+                    <button type="submit" id="buttonsuratkeluar" class="btn btn-primary">Simpan</button>
+                    <button type="button" class="btn btn-secondary" onclick="reset()">Reset</button>
                 </div>
             </form>
         </x-card>
@@ -121,6 +125,48 @@
             ]
 
         });
+
+        function reset() {
+            $('#nomor_surat').val('');
+            $('#tanggal_kirim').val('');
+            $('#tujuan').val('');
+            $('#perihal').val('');
+            $('#keterangan').val('');
+            $('#content').val('');
+            $('#id').val('');
+            $('#formSuratKeluar').attr('action', "{{ route('surat.addsuratkeluar') }}");
+            $('#buttonsuratkeluar').text('Simpan');
+        }
+    </script>
+    <script>
+        function editSuratKeluar(id) {
+            let nomorsurat = $('#nomor_surat');
+            let tanggalkirim = $('#tanggal_kirim');
+            let tujuan = $('#tujuan');
+            let perihal = $('#perihal');
+            let keterangan = $('#keterangan');
+            let content = $('#content');
+            let id_surat = $('#id');
+
+            $.ajax({
+                url: "{{ url('surat/getdatasuratkeluarbyid') }}" + '/' + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function(data) {
+                    console.log(data);
+                    nomorsurat.val(data.nomor_surat);
+                    tanggalkirim.val(data.tanggal_kirim);
+                    tujuan.val(data.tujuan);
+                    perihal.val(data.perihal);
+                    keterangan.val(data.keterangan);
+                    // ckeditor
+                    CKEDITOR.instances['content'].setData(data.content);
+                    id_surat.val(data.id);
+                }
+            });
+            $('#formSuratKeluar').attr('action', "{{ url('surat/updatesuratkeluar') }}");
+            $('#buttonsuratkeluar').text('Update');
+        }
     </script>
 @endsection
 @section('script')

@@ -94,6 +94,7 @@ class SuratService
             ->setTanggalKirim($request->tanggal_kirim)
             ->setTujuan($request->tujuan)
             ->setPerihal($request->perihal)
+            ->setContent($request->content)
             ->setLampiran($pdfpath)
             ->setKeterangan($request->keterangan);
         return $suratBuilder->build();

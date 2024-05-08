@@ -37,10 +37,11 @@ class SuratKeluarService extends SuratService
         try {
             DB::beginTransaction();
             $this->validationSuratKeluar($request);
-            $suratKeluar = $this->builderSuratKeluar($request);
+            $pdfPath = GeneratePdfHelper::generate('Surat.Surat', $request);
+            $suratKeluar = $this->builderSuratKeluar($request, $pdfPath);
             $this->repository->updateDetailBy($suratKeluar, 'getId', 'id');
             DB::commit();
-            return redirect()->back()->with('success', 'Data berhasil diubah');
+            return redirect()->back()->with('success', 'Data surat keluar berhasil diubah');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->withErrors($e->getMessage())->withInput();
@@ -69,8 +70,9 @@ class SuratKeluarService extends SuratService
             })
             ->addColumn('action', function ($data) {
                 // delete button
+                $buttonEdit = "<button class='btn btn-warning btn-sm' onclick='editSuratKeluar(" . $data->id . ")'>Edit</button> ";
                 $button = '<a href="' . route('surat.deletesuratkeluar', $data->id) . '" class="btn btn-danger btn-sm">Delete</a>';
-                return $button;
+                return $buttonEdit . ' ' . $button;
             })
             ->rawColumns(['lampiran', 'action'])
             ->make(true);
@@ -79,5 +81,10 @@ class SuratKeluarService extends SuratService
     public function countMailOut()
     {
         return $this->repository->getModels()::count();
+    }
+
+    public function getDataSuratKeluarById($id)
+    {
+        return $this->repository->getModels()::find($id);
     }
 }

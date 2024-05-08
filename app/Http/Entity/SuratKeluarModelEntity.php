@@ -11,10 +11,11 @@ class SuratKeluarModelEntity
 	private $perihal;
 	private $keterangan;
 	private $lampiran;
+	private $content;
 	private $status;
 
 	// Constructor
-	public function __construct($id, $nomor_surat, $tanggal_kirim, $tujuan, $perihal, $keterangan, $lampiran, $status)
+	public function __construct($id, $nomor_surat, $tanggal_kirim, $tujuan, $perihal, $keterangan, $lampiran, $content, $status)
 	{
 		$this->id = $id;
 		$this->nomor_surat = $nomor_surat;
@@ -23,6 +24,7 @@ class SuratKeluarModelEntity
 		$this->perihal = $perihal;
 		$this->keterangan = $keterangan;
 		$this->lampiran = $lampiran;
+		$this->content = $content;
 		$this->status = $status;
 	}
 
@@ -101,6 +103,17 @@ class SuratKeluarModelEntity
 	public function getLampiran()
 	{
 		return $this->lampiran;
+	}
+
+
+	/**
+	 * Get the content.
+	 *
+	 * @return mixed
+	 */
+	public function getContent()
+	{
+		return $this->content;
 	}
 
 
@@ -189,6 +202,17 @@ class SuratKeluarModelEntity
 	public function setLampiran($value)
 	{
 		$this->lampiran = $value;
+	}
+
+
+	/**
+	 * Set the content.
+	 *
+	 * @return mixed
+	 */
+	public function setContent($value)
+	{
+		$this->content = $value;
 	}
 
 

@@ -40,9 +40,6 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </x-card>
-        <x-card title="Data Surat Keluar">
-
-        </x-card>
     </div>
 
 
