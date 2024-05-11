@@ -7,6 +7,7 @@ use App\Http\Repository\Payment\PaymentRepository;
 use App\Http\Repository\Student\StudentRepository;
 use App\Http\Service\Payment\PaymentService;
 use App\Http\Service\Student\GetDataStudentService;
+use App\Http\Service\Tagihan\PembayaranService;
 use App\Models\Payment;
 use App\Models\Student;
 use Illuminate\Http\Request;
@@ -15,17 +16,19 @@ class AnalitcController extends Controller
 {
     public function index()
     {
+        $dataPayment = new PembayaranService();
         $dataTotalPembayaranBulanan = new PaymentService(new PaymentRepository(new Payment()));
-        $totalPembayaranBulanan = $dataTotalPembayaranBulanan->totalPembayaranTahunan();
-        $persentasePembayaran = $dataTotalPembayaranBulanan->totalPesentasiBulanIni();
+        $totalPembayaranBulanan = $dataPayment->totalPembayaranTahunan();
+        $persentasePembayaran = $dataPayment->persentasePembayaranBulanIni();
         $keseluruhanPembayaran = $totalPembayaranBulanan->total_payment;
-        $totalBulanini = $dataTotalPembayaranBulanan->totalPembayaranBulanan()->total_payment;
-        $totalBulanLalu = $dataTotalPembayaranBulanan->totalPembayaranBulanLalu()->total_payment;
+        $totalBulanini = $dataPayment->totalPembayaranBulanan()->total_payment;
+        $totalBulanLalu = $dataPayment->totalPembayaranBulanLalu()->total_payment;
 
         $totalsiswa  = new GetDataStudentService(new StudentRepository(new Student()));
         $totalSiswa = $totalsiswa->countAllStudent();
         $paidStudent = $this->getDataStudentPaid();
         $studentUnpaid = $this->getDataStudentNotPaid();
+        $studentInstallment = $this->getStudentInstallment();
         // dd($keseluruhanPembayaran, $persentasePembayaran);
         return view('Analitic.Analitic', compact(
             'keseluruhanPembayaran',
@@ -34,23 +37,40 @@ class AnalitcController extends Controller
             'totalBulanLalu',
             'totalSiswa',
             'paidStudent',
-            'studentUnpaid'
+            'studentUnpaid',
+            'studentInstallment'
         ));
     }
 
     public function getDataStudentPaid()
     {
-        // couunt payment where month now and payment date is not null and payment date is this month
-        return  Student::with('payments')->whereHas('payments', function ($query) {
-            $query->whereMonth('payment_date', date('m'))->whereYear('payment_date', date('Y'));
-        })->count();
+
+
+        return $this->getStudentPaid('paid');
     }
 
     public function getDataStudentNotPaid()
     {
         // count student where payment date is null
-        return Student::with('payments')->whereDoesntHave('payments', function ($query) {
-            $query->whereMonth('payment_date', date('m'))->whereYear('payment_date', date('Y'));
-        })->count();
+        return $this->getStudentPaid('unpaid');
+    }
+
+    public function getStudentInstallment()
+    {
+        return $this->getStudentPaid('installment');
+    }
+
+
+    private function getStudentPaid($status)
+    {
+        $bulanTagihan = date('M');
+        $tahunTagihan = date('Y');
+
+        return Student::whereHas('bills', function ($query) use ($bulanTagihan, $tahunTagihan, $status) {
+            $query->where('status_tagihan', $status)
+                ->where('bulan_tagihan', $bulanTagihan)
+                ->where('tahun_tagihan', $tahunTagihan);
+        })
+            ->count();
     }
 }

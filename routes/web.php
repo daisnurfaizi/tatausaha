@@ -12,11 +12,13 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Mail\Mailcontroller;
 use App\Http\Controllers\Otp\OtpController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Role\RoleController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Surat\KopController;
 use App\Http\Controllers\Surat\SuratController;
+use App\Http\Controllers\TagihanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +70,7 @@ Route::group(
         Route::controller(PaymentController::class)->group(
             function () {
                 Route::get('payment', 'index')->name('payment');
+                Route::get('billing', 'billing')->name('billing');
                 Route::get('getdatapayment', 'getDataPayment')->name('getdatapayment');
                 Route::post('addpayment', 'addPayment')->name('addpayment');
                 Route::get('getDataPayment', 'getDataPayment')->name('getDataPayment');
@@ -184,6 +187,45 @@ Route::group(
         );
     }
 );
+
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'tagihan',
+        'as' => 'tagihan.'
+    ],
+    function () {
+        Route::controller(TagihanController::class)->group(
+            function () {
+                Route::post('generateTagihan', 'generateTagihan')->name('generateTagihan');
+                Route::get('getTagihan/{studentId}/{bulan}', 'getTagihanbyStudentId')->name('getTagihanbyStudentId');
+                Route::get('getKartuPembayaranTagihan', 'getKartuPembayaran')->name('getKartuPembayaranTagihan');
+            }
+        );
+    }
+);
+
+// pembayaran
+Route::group(
+    [
+        'middleware' => 'auth',
+        'prefix' => 'pembayaran',
+        'as' => 'pembayaran.'
+    ],
+    function () {
+        Route::controller(PembayaranController::class)->group(
+            function () {
+                Route::post('createPayment', 'createPayment')->name('createPayment');
+                Route::get('getAllPembayaran', 'getAllPembayaran')->name('getAllPembayaran');
+                Route::get('getTotalPembayaranBulanan', 'getTotalPembayaranBulanan')->name('getTotalPembayaranBulanan');
+                Route::get('cancelPembayaran/{id}', 'cancelPembayaran')->name('cancelPembayaran');
+                Route::post('editPembayaran', 'editPembayaran')->name('editPembayaran');
+                Route::get('getDataPembayaranBatal', 'getDataPembayaranBatal')->name('getDataPembayaranBatal');
+            }
+        );
+    }
+);
+
 
 
 Route::controller(LoginController::class)->group(

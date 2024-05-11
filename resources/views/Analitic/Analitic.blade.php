@@ -199,7 +199,7 @@
                                     <td>
                                         <h4 class="text-truncate fs-14 mb-0"><i
                                                 class="ri-stop-fill align-middle fs-18 text-primary me-2"></i>Siswa yang
-                                            Sudah Bayar</h4>
+                                            Sudah Lunas</h4>
                                     </td>
                                     <td>
                                         <p class="text-muted mb-0"><i data-feather="users"
@@ -208,7 +208,7 @@
                                     </td>
                                     <td class="text-end">
                                         <p class="text-success fw-medium fs-13 mb-0"><i
-                                                class="ri-arrow-up-s-fill fs-5 align-middle"></i>{{ ($paidStudent / $totalSiswa) * 100 }}%
+                                                class="ri-arrow-up-s-fill fs-5 align-middle"></i>{{ round(($paidStudent / $totalSiswa) * 100, 2) }}%
                                         </p>
                                     </td>
                                 </tr>
@@ -225,9 +225,28 @@
                                     </td>
                                     <td class="text-end">
                                         <p class="text-danger fw-medium fs-13 mb-0"><i
-                                                class="ri-arrow-down-s-fill fs-5 align-middle"></i>{{ ($studentUnpaid / $totalSiswa) * 100 }}%
+                                                class="ri-arrow-down-s-fill fs-5 align-middle"></i>{{ round(($studentUnpaid / $totalSiswa) * 100, 2) }}%
                                         </p>
                                     </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h4 class="text-truncate fs-14 mb-0"><i
+                                                class="ri-stop-fill align-middle fs-18 text-info me-2"></i>Siswa yang
+                                            Masih Mencicil</h4>
+                                    </td>
+                                    <td>
+                                        <p class="text-muted mb-0"><i data-feather="users"
+                                                class="me-2 icon-sm"></i>{{ $studentInstallment }}
+                                        </p>
+                                    </td>
+                                    <td class="text-end">
+                                        <p class="text-danger fw-medium fs-13 mb-0"><i
+                                                class="ri-arrow-down-s-fill fs-5 align-middle"></i>{{ round(($studentInstallment / $totalSiswa) * 100, 2) }}%
+                                        </p>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
@@ -239,230 +258,19 @@
 
 
     </div>
-    <div class="card">
-        <div class="card-header">
-            <h5 class="card-title mb-0">Data Pembayaran</h5>
-        </div>
-        <div class="card-body">
+    <x-history.historytagihan />
 
-            <div id="filter-bulan"></div>
-
-
-            <div id="filter-nama"></div>
-
-
-            <table id="paymentdata" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                style="width:100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Pembayaran</th>
-                        <th>Bulan</th>
-                        <th>Tanggal</th>
-                        <th>Metode Pembayaran</th>
-                        <th>Keterangan</th>
-                        <th>Bukti Transfer</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Isi tabel di sini -->
-                </tbody>
-            </table>
-
-        </div>
-    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="card-title mb-0">Kartu Pembayaran</h5>
         </div>
         <div class="card-body">
-
-
-            <table id="kartupembayaran" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                style="width:100%">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Januari</th>
-                        <th>Februari</th>
-                        <th>Maret</th>
-                        <th>April</th>
-                        <th>Mei</th>
-                        <th>Juni</th>
-                        <th>Juli</th>
-                        <th>Agustus</th>
-                        <th>September</th>
-                        <th>Oktober</th>
-                        <th>November</th>
-                        <th>Desember</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Isi tabel di sini -->
-                </tbody>
-            </table>
-
+            <x-kartu.kartupembayaran />
         </div>
     </div>
+    <x-history.historytagihanbatal />
+
     <script>
-        $('#paymentdata').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('dashboard.getDataPayment') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'nama_siswa',
-                    name: 'nama_siswa'
-                },
-                {
-                    data: 'payment_amount',
-                    name: 'payment_amount'
-                },
-                {
-                    data: 'month',
-                    name: 'month'
-                },
-                {
-                    data: 'payment_date',
-                    name: 'payment_date'
-                },
-                {
-                    data: 'payment_method',
-                    name: 'payment_method'
-                },
-                {
-                    data: 'note',
-                    name: 'note'
-                },
-                {
-                    data: 'payment_file',
-                    name: 'payment_file'
-                },
-
-            ],
-            // dom: 'lBfrtip', // Menampilkan elemen filter
-            // buttons: [
-            //     'csv', 'excel', 'pdf', // Menambahkan tombol eksport CSV, Excel, dan PDF
-            //     {
-            //         extend: 'print',
-            //         text: 'Print',
-            //         exportOptions: {
-            //             modifier: {
-            //                 selected: null
-            //             }
-            //         }
-            //     }
-            // ],
-            // initComplete: function() {
-            //     this.api().columns('1').every(function() {
-            //         var column = this;
-            //         var select = $('<select><option value="">Filter Nama</option></select>')
-            //             .appendTo($('#filter-nama').empty())
-            //             .on('change', function() {
-            //                 var val = $.fn.dataTable.util.escapeRegex(
-            //                     $(this).val()
-            //                 );
-            //                 column.search(val ? '^' + val + '$' : '', true, false).draw();
-            //             });
-
-            //         column.data().unique().sort().each(function(d, j) {
-            //             select.append('<option value="' + d + '">' + d + '</option>');
-            //         });
-            //     });
-            //     $('#filter-nama').appendTo('.dataTables_filter');
-            //     // Membuat filter berdasarkan bulan
-            //     this.api().columns('3').every(function() {
-            //         var column = this;
-            //         var select = $('<select><option value="">Filter Bulan</option></select>')
-            //             .appendTo($('#filter-bulan')
-            //                 .empty()) // ID filter-bulan adalah div tempat filter ditempatkan
-            //             .on('change', function() {
-            //                 var val = $.fn.dataTable.util.escapeRegex(
-            //                     $(this).val()
-            //                 );
-            //                 column.search(val ? '^' + val + '$' : '', true, false).draw();
-            //             });
-
-            //         column.data().unique().sort().each(function(d, j) {
-            //             select.append('<option value="' + d + '">' + d + '</option>');
-            //         });
-            //     });
-            //     $('#filter-bulan').appendTo('.dataTables_filter');
-            //     $('#filter-nama').appendTo('.dataTables_filter');
-            // }
-
-
-        });
-        $('#kartupembayaran').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('dashboard.getKartuPembayaran') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex'
-                },
-                {
-                    data: 'nama_siswa',
-                    name: 'nama_siswa'
-                },
-                {
-                    data: 'januari',
-                    name: 'januari'
-                },
-                {
-                    data: 'februari',
-                    name: 'februari'
-                },
-                {
-                    data: 'maret',
-                    name: 'maret'
-                },
-                {
-                    data: 'april',
-                    name: 'april'
-                },
-                {
-                    data: 'mei',
-                    name: 'mei'
-                },
-                {
-                    data: 'juni',
-                    name: 'juni'
-                },
-                {
-                    data: 'juli',
-                    name: 'juli'
-                },
-                {
-                    data: 'agustus',
-                    name: 'agustus'
-                },
-                {
-                    data: 'september',
-                    name: 'september'
-                },
-                {
-                    data: 'oktober',
-                    name: 'oktober'
-                },
-                {
-                    data: 'november',
-                    name: 'november'
-                },
-                {
-                    data: 'desember',
-                    name: 'desember'
-                }
-            ],
-        })
-
         function getDataSiswaBelumBayar() {
             $.ajax({
                 url: "{{ route('dashboard.getDataSiswaBelumBayar') }}",
@@ -484,6 +292,7 @@
     <script>
         var studentPaid = {{ $paidStudent }};
         var studentUnpaid = {{ $studentUnpaid }};
+        var studentInstallment = {{ $studentInstallment }};
         console.log(studentPaid);
 
         function getChartColorsArray(chartId) {
@@ -516,8 +325,8 @@
         var dountchartUserDeviceColors = getChartColorsArray("siswadata");
         if (dountchartUserDeviceColors) {
             var options = {
-                series: [studentPaid, studentUnpaid],
-                labels: ["Sudah Bayar", "Belum Bayar"],
+                series: [studentPaid, studentUnpaid, studentInstallment],
+                labels: ["Lunas", "Belum Bayar", "Mencicil"],
                 chart: {
                     type: "donut",
                     height: 219,

@@ -168,7 +168,12 @@
                         </a>
                         <div class="collapse menu-dropdown" id="payment">
                             <ul class="nav nav-sm flex-column">
-
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.billing') }}" class="nav-link"
+                                        role="button">Master
+                                        Data Tagihan
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a href="{{ route('dashboard.payment') }}" class="nav-link" role="button">Input
                                         Data Spp

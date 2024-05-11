@@ -26,4 +26,9 @@ class Student extends Model
     {
         return $this->hasMany(Payment::class, 'nisn', 'nisn');
     }
+
+    public function bills()
+    {
+        return $this->hasMany(Tagihan::class, 'student_id', 'id');
+    }
 }

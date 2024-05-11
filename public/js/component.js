@@ -14,6 +14,20 @@ function formatRupiah(angka, prefix){
     rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
     return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
 }
+
+function parseRupiah(rupiah) {
+    // Hilangkan karakter 'Rp.' dan semua karakter selain digit dan koma
+    var number_string = rupiah.replace(/[^\d,]/g, '');
+
+    // Hilangkan semua titik (pemisah ribuan)
+    number_string = number_string.replace(/\./g, '');
+
+    // Konversi string menjadi nilai angka
+    var angka = parseFloat(number_string.replace(',', '.'));
+
+    return angka;
+}
+
 $('#jumlahpembayaran').keyup(function(){
     $(this).val(formatRupiah($(this).val(), 'Rp. '));
 });

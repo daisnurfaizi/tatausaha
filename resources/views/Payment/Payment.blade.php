@@ -30,104 +30,25 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Input Pembayaran</h5>
+                    <h5 class="card-title mb-0">Input Data Tagihan</h5>
                 </div>
                 <div class="card-body">
-                    <button type="button" id="createTagihan" onclick="createTagihanBulanan()" class="btn btn-primary">Buat
+                    <button type="button" id="createTagihan" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#tagihanModalgrid">Buat
                         Tagihan Bulan Ini Kepada Seluruh
                         Siswa</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModalgrid">
+                        Buat Tagihan Bersarkan Bulan <i class="mdi mdi-plus-circle ms-1"></i>
+                    </button>
                     <x-alert.alert />
-                    <form action="{{ route('pembayaran.createPayment') }}" method="POST" enctype="multipart/form-data"
-                        id="form">
-                        @csrf
-                        <input type="hidden" name="idtagihan" id="idtagihan">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <label for="nisn" class="form-label">Nama Siswa</label>
-                                    <select class="js-example-basic-single"id="siswa" name="siswa">
-                                        <option value="" selected>Pilih Nama Siswa</option>
-                                        @foreach ($data as $siswa)
-                                            <option value="{{ $siswa->id }}">{{ $siswa->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    {{-- bulan --}}
-                                    <x-form.input id="bulan" type="select" label="Bulan" name="month" required=true
-                                        :options="[
-                                            'januari' => 'Januari',
-                                            'februari' => 'Februari',
-                                            'maret' => 'Maret',
-                                            'april' => 'April',
-                                            'mei' => 'Mei',
-                                            'juni' => 'Juni',
-                                            'juli' => 'Juli',
-                                            'agustus' => 'Agustus',
-                                            'september' => 'September',
-                                            'oktober' => 'Oktober',
-                                            'november' => 'November',
-                                            'desember' => 'Desember',
-                                        ]" />
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <x-form.input id="jumlahtagihan" type="text" label="Jumlah Tagihan"
-                                        name="jumlah_tagihan" placeholder="Enter jumlah pembayaran" required="true"
-                                        readonly="true" />
 
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <x-form.input id="jumlahpembayaran" type="text" label="Jumlah Yang Dibayarkan"
-                                        name="payment_amount" placeholder="Enter jumlah pembayaran" required="true" />
-
-                                </div>
-                            </div><!--end col-->
-
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <x-form.input id="date" type="date" label="Tanggal" name="payment_date"
-                                        placeholder="Enter date" required="true" />
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    {{-- metode pembayaran --}}
-                                    <x-form.input id="metodepembayaran" type="select" label="Metode Pembayaran"
-                                        name="payment_method" :options="['cash' => 'Cash', 'transfer' => 'Transfer']" />
-
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    {{-- keterangan --}}
-                                    <x-form.input id="keterangan" type="textarea" label="Keterangan" name="note"
-                                        placeholder="Enter keterangan" />
-                                </div>
-                            </div><!--end col-->
-                            {{-- upload bukti transfer --}}
-                            <div class="col-6">
-                                <div class="mb-3">
-                                    <x-form.input id="buktitransfer" type="file" label="Bukti Transfer"
-                                        name="payment_file" placeholder="Enter bukti transfer" />
-                                </div>
-                            </div><!--end col-->
-                            <div class="col-lg-12">
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div><!--end col-->
-                        </div><!--end row-->
-                    </form>
                 </div>
             </div>
             <x-history.historytagihan />
+
             <x-history.historytagihanbatal />
+
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Kartu Pembayaran</h5>
@@ -168,8 +89,8 @@
                             <div class="col-xxl-6">
                                 <div>
                                     {{-- bulan --}}
-                                    <x-form.input id="bulanedit" type="select" label="Bulan" name="month"
-                                        required=true :options="[
+                                    <x-form.input id="bulanedit" type="select" label="Bulan" name="month" required=true
+                                        :options="[
                                             'januari' => 'Januari',
                                             'februari' => 'Februari',
                                             'maret' => 'Maret',
@@ -224,31 +145,133 @@
             </div>
         </form>
     </div>
+    <div class="modal fade" id="exampleModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+        aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">Buat Tagihan Bulan Spesifik</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
 
-    <script>
-        function createTagihanBulanan() {
-            $.ajax({
-                url: "{{ route('tagihan.generateTagihan') }}",
-                type: "POST",
-                dataType: "JSON",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    bulan: "{{ date('M') }}",
-                    jumlah: 250000
-                },
-                success: function(data) {
-                    if (data.status == 'success') {
-                        alert('Tagihan bulan ini berhasil dibuat');
-                    } else {
-                        alert('Tagihan bulan ini gagal dibuat');
-                    }
-                },
-                error: function(data) {
-                    alert(data.responseJSON.message)
-                }
-            });
-        }
-    </script>
+                    <div class="row g-3">
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="Bulan" class="form-label">Pilih Bulan</label>
+                                <input type="month" class="form-control" id="bulantagihan" placeholder="Enter bulan">
+
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="nisn" class="form-label">Tagihan</label>
+                                <input type="text" class="form-control" id="tagihanbulanini"
+                                    placeholder="Masukkan tagihan bulan ini">
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-lg-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="buttonmodal" class="btn btn-primary"
+                                    onclick="createTagihanBulanSpesifik()">Submit</button>
+                            </div>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="tagihanModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+        aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalgridLabel">Buat Tagihan Bulan ini Kepada Seluruh Siswa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row g-3">
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="nisn" class="form-label">Tagihan</label>
+                                <input type="text" class="form-control" id="jumlahtagihanbulanini"
+                                    placeholder="Masukkan tagihan bulan ini">
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-lg-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="buttonmodal" class="btn btn-primary"
+                                    onclick="createTagihanBulanan()">Submit</button>
+                            </div>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- modal pembayaran edit --}}
+    <div class="modal fade" id="editPembayaranModalgrid" tabindex="-1" aria-labelledby="exampleModalgridLabel"
+        aria-modal="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Data Pembayaran</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="idpembayaran" name="id" value="">
+                    <div class="row g-3">
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="nisn" class="form-label">Pembayaran</label>
+                                <input type="text" class="form-control" id="editJumlahTagihan"
+                                    placeholder="Masukkan tagihan bulan ini">
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="tglpembayaranedit" class="form-label">Tanggal</label>
+                                <input type="date" class="form-control" id="tglpembayaranedit"
+                                    placeholder="Masukkan tagihan bulan ini" value="{{ date('Y-m-d') }}">
+                            </div>
+                        </div><!--end col-->
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="metodepembayaranedit" class="form-label">Metode Pembayaran</label>
+                                <select class="form-select" id="metodepembayaranedit">
+                                    <option value="cash">Cash</option>
+                                    <option value="transfer">Transfer</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-xxl-6">
+                            <div>
+                                <label for="keteranganedit"
+                                    class="form-label
+                                    ">Keterangan</label>
+                                <textarea class="form-control" id="keteranganedit" rows="3" placeholder="Enter keterangan"></textarea>
+                            </div>
+                        </div><!--end col-->
+
+                        <div class="col-lg-12">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" id="buttonmodal" class="btn btn-primary"
+                                    onclick="prosesEditPembayaran()">Submit</button>
+                            </div>
+                        </div><!--end col-->
+                    </div><!--end row-->
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var base_url = window.location.origin;
     </script>
@@ -257,6 +280,7 @@
     <script src="{{ URL::asset('Tagihan/tagihan.init.js') }}"></script>
     <script src="{{ URL::asset('js/component.js') }}"></script>
     <script src="{{ URL::asset('js/payment.js') }}"></script>
+    <script src="{{ URL::asset('js/billing.js') }}"></script>
     <script src="{{ URL::asset('build/js/pages/select2.init.js') }}"></script>
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection

@@ -25,3 +25,101 @@ function editPayment(id) {
         }
     });
 }
+
+function cancelPembayaran(id){
+    $.ajax({
+        url: baseUrl + '/pembayaran/cancelPembayaran/' + id,
+        type: 'GET',
+        success: function(response) {
+            if(response.status == 'success'){
+                Toastify({
+                    text: "Pembayaran berhasil dibatalkan",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#00CC00",
+                    stopOnFocus: true,
+                }).showToast();
+            } else {
+                Toastify({
+                    text: "Pembayaran gagal dibatalkan",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#FF0000",
+                    stopOnFocus: true,
+                }).showToast();
+            }
+            $('#paymentdata').DataTable().ajax.reload();
+            $('#kartupembayaran').DataTable().ajax.reload();
+        }        
+    });
+}
+$('#editJumlahTagihan').on('keyup', function() {
+    var inputVal = $(this).val();
+
+    var formatValue = formatRupiah(inputVal, 'Rp. ');
+    $(this).val(formatValue);
+    
+}
+);
+
+// parsing data-id ke modal
+function editPembayaran(id,tagihan,metode,note,tglpembayaran) {
+    // console.log(data);
+    $('#editPembayaranModalgrid').modal('show');
+    $('#editJumlahTagihan').val(formatRupiah(tagihan, 'Rp. '));
+    $('#idpembayaran').val(id);
+    $('#metodepembayaranedit').val(metode);
+    $('#keteranganedit').val(note);
+    $('#tglpembayaranedit').val(tglpembayaran);
+
+
+}
+
+function prosesEditPembayaran(){
+    let id = $('#idpembayaran').val();
+    let jumlah = parseRupiah($('#editJumlahTagihan').val());
+    let metode = $('#metodepembayaranedit').val();
+    let note = $('#keteranganedit').val();
+    let tglpembayaran = $('#tglpembayaranedit').val();
+    let jumlahpembayaran = parseRupiah($('#editJumlahTagihan').val());
+    console.log(jumlahpembayaran);
+    $.ajax({
+        url: baseUrl + '/pembayaran/editPembayaran',
+        type: 'POST',
+        data: {
+            _token: csrfToken,
+            tagihan_id: id,
+            jumlah_pembayaran: jumlahpembayaran,
+            metode: metode,
+            keterangan: note,
+            tanggal_pembayaran: tglpembayaran
+        },
+        success: function(response) {
+            if(response.status == 'success'){
+                Toastify({
+                    text: "Pembayaran berhasil diubah",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#00CC00",
+                    stopOnFocus: true,
+                }).showToast();
+            } else {
+                Toastify({
+                    text: "Pembayaran gagal diubah",
+                    duration: 3000,
+                    gravity: "top",
+                    position: "center",
+                    backgroundColor: "#FF0000",
+                    stopOnFocus: true,
+                }).showToast();
+            }
+            $('#paymentdata').DataTable().ajax.reload();
+            $('#kartupembayaran').DataTable().ajax.reload();
+            $('#editPembayaranModalgrid').modal('hide');
+        }
+    });
+}
+

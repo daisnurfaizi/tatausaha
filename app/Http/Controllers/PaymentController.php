@@ -19,6 +19,13 @@ class PaymentController extends Controller
         return view('Payment.Dashboard', compact('data'));
     }
 
+    public function billing()
+    {
+        $datasiswa = new GetDataStudentService(new StudentRepository(new Student()));
+        $data = $datasiswa->getAllStudent(datatable: false);
+        return view('Payment.Payment', compact('data'));
+    }
+
     public function addPayment(Request $request)
     {
         $payment = new PaymentService(new PaymentRepository(new Payment()));
