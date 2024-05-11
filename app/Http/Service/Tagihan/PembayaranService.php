@@ -57,7 +57,7 @@ class PembayaranService extends TagihanService
             return redirect()->back()->with('success', 'Pembayaran berhasil');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Pembayaran gagal ' . $e->getMessage());
+            return redirect()->route('dashboard.payment')->with('error', 'Pembayaran gagal. Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 

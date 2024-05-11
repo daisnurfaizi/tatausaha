@@ -8,6 +8,11 @@
                 @endforeach
         </div>
     @endif
+    @if (session('error'))
+        <div class="alert alert-danger" role="alert">
+            <strong> Tejadi kesalahan! </strong> {{ session('error') }}
+        </div>
+    @endif
     @if (session('success'))
         <div class="alert alert-success" role="alert">
             <strong> Success! </strong> {{ session('success') }}

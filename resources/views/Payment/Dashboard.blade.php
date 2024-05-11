@@ -33,9 +33,6 @@
                     <h5 class="card-title mb-0">Input Pembayaran</h5>
                 </div>
                 <div class="card-body">
-                    <button type="button" id="createTagihan" onclick="createTagihanBulanan()" class="btn btn-primary">Buat
-                        Tagihan Bulan Ini Kepada Seluruh
-                        Siswa</button>
                     <x-alert.alert />
                     <form action="{{ route('pembayaran.createPayment') }}" method="POST" enctype="multipart/form-data"
                         id="form">
