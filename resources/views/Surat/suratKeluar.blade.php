@@ -50,7 +50,7 @@
 
                 <div class="mt-3">
                     <button type="submit" id="buttonsuratkeluar" class="btn btn-primary">Simpan</button>
-                    <button type="button" class="btn btn-secondary" onclick="reset()">Reset</button>
+                    <button type="button" id="resetButton" class="btn btn-secondary" onclick="reset()">Reset</button>
                 </div>
             </form>
         </x-card>
@@ -125,6 +125,11 @@
             ]
 
         });
+        $(document).ready(function() {
+            $('#resetButton').click(function() {
+                reset(); // Call the reset function when the reset button is clicked
+            });
+        });
 
         function reset() {
             $('#nomor_surat').val('');
@@ -148,6 +153,7 @@
             let content = $('#content');
             let id_surat = $('#id');
 
+
             $.ajax({
                 url: "{{ url('surat/getdatasuratkeluarbyid') }}" + '/' + id,
                 type: "GET",
@@ -162,6 +168,11 @@
                     // ckeditor
                     CKEDITOR.instances['content'].setData(data.content);
                     id_surat.val(data.id);
+                    // Scroll to the form
+                    $('html, body').animate({
+                        scrollTop: $('#formSuratKeluar').offset().top
+                    }, 200); // Adjust the time as needed
+
                 }
             });
             $('#formSuratKeluar').attr('action', "{{ url('surat/updatesuratkeluar') }}");

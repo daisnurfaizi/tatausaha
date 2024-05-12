@@ -21,7 +21,6 @@ class AddStudentService
     {
         try {
             DB::beginTransaction();
-            $this->validate($request);
             $dataStudent = $this->studentBuilder($request)->build();
             $this->repository->createByEntity($dataStudent,);
             DB::commit();
@@ -36,13 +35,12 @@ class AddStudentService
     {
         $messages = [
             'nisn.required' => 'NISN tidak boleh kosong',
-            'nisn.unique' => 'NISN sudah terdaftar',
             'name.required' => 'Nama tidak boleh kosong',
             'nisn.numeric' => 'NISN harus berupa angka',
             'nisn.min' => 'NISN minimal 10 digit',
         ];
         $validator = Validator::make($request->all(), [
-            'nisn' => 'required|unique:students|numeric|min:10',
+            'nisn' => 'required',
             'name' => 'required',
         ], $messages);
 

@@ -42,7 +42,9 @@ class LoginController extends Controller
 
 
         $credentials = $request->only('email', 'password');
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->email)
+            ->where('status', 'active')
+            ->first();
         if (!$user) {
             return redirect()->back()->withInput()->withErrors('Email tidak terdaftar');
         }

@@ -116,7 +116,11 @@ class TagihanService
             'July', 'August', 'September', 'October', 'November', 'December'
         ];
 
-        $tagihan = $this->repository->getModels()::where('tahun_tagihan', $year)->get();
+        $tagihan = $this->repository->getModels()::where('tahun_tagihan', $year)
+            ->whereHas('student', function ($query) {
+                $query->where('status', 'active');
+            })
+            ->get();
 
         $data = [];
         foreach ($tagihan as $item) {

@@ -32,13 +32,13 @@ class StudentController extends Controller
         return $studentService->deleteStudent($nisn);
     }
 
-    public function savestudent(Request $request)
+    public function savestudent(StudentRequest $request)
     {
         $studentService = new AddStudentService(new StudentRepository(new Student()));
         return $studentService->addStudent($request);
     }
 
-    public function updateStudent(Request $request)
+    public function updateStudent(StudentRequest $request)
     {
         $studentService = new UpdateDataStudentService(new StudentRepository(new Student()));
         return $studentService->updateStudent($request);

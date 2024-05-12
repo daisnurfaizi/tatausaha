@@ -5,7 +5,7 @@ namespace App\Http\Requests\Student;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
-
+use Illuminate\Validation\Rule;
 
 class StudentRequest extends FormRequest
 {
@@ -24,10 +24,20 @@ class StudentRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required',
-            'nisn' => 'required|numeric|unique:students,nisn',
-        ];
+        if ($this->isMethod('POST')) {
+            // Validasi unik untuk NISN hanya saat membuat data baru
+            return [
+                'name' => 'required',
+                'nisn' => 'required|numeric|unique:students,nisn',
+            ];
+        } else {
+            // Validasi NISN hanya diperlukan saat tidak POST (mungkin PUT atau PATCH)
+            return [
+                'name' => 'required',
+                'nisn' => 'required',
+                Rule::unique('students', 'nisn')->ignore($this->student),
+            ];
+        }
     }
 
     /**
@@ -35,12 +45,21 @@ class StudentRequest extends FormRequest
      */
     public function messages(): array
     {
-        return [
-            'name.required' => 'Nama tidak boleh kosong',
-            'nisn.required' => 'NISN tidak boleh kosong',
-            'nisn.numeric' => 'NISN harus berupa angka',
-            'nisn.unique' => 'NISN sudah terdaftar',
-        ];
+        // if method is POST
+        if ($this->isMethod('POST')) {
+            return [
+                'name.required' => 'Nama tidak boleh kosong',
+                'nisn.required' => 'NISN tidak boleh kosong',
+                'nisn.numeric' => 'NISN harus berupa angka',
+                'nisn.unique' => 'NISN sudah terdaftar',
+            ];
+        } else {
+            // if method is not POST
+            return [
+                'name.required' => 'Nama tidak boleh kosong',
+                'nisn.required' => 'NISN tidak boleh kosong',
+            ];
+        }
     }
 
     // handle a failed validation attempt.

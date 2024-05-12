@@ -228,6 +228,8 @@ class PembayaranService extends TagihanService
     {
         $dataPembayaran = $this->pembayaranRepository->getModels()::with('tagihan')
             ->withTrashed()
+            // where created_ad pada bulan berjalan
+            ->whereMonth('created_at', date('m'))
             ->whereNotNull('deleted_at')
             ->orderBy('created_at', 'desc')->get();
 

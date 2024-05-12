@@ -58,7 +58,7 @@ Route::group(
                 Route::get('addstudent', 'addStudent')->name('addstudent');
                 Route::post('savestudent', 'saveStudent')->name('savestudent');
                 Route::get('editstudent/{id}', 'editStudent')->name('editstudent');
-                Route::post('updatestudent', 'updateStudent')->name('updatestudent');
+                Route::put('updatestudent', 'updateStudent')->name('updatestudent');
                 Route::get('deletestudent/{id}', 'deleteStudent')->name('deletestudent');
                 Route::get('studentExport', 'studentExport')->name('studentExport');
                 Route::post('studentImport', 'studentImport')->name('studentImport');

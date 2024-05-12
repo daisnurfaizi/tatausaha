@@ -40,6 +40,9 @@ function cancelPembayaran(id){
                     backgroundColor: "#00CC00",
                     stopOnFocus: true,
                 }).showToast();
+                $('#paymentdata').DataTable().ajax.reload();
+                $('#kartupembayaran').DataTable().ajax.reload();
+                 $('#paymentdatabatal').DataTable().ajax.reload();
             } else {
                 Toastify({
                     text: "Pembayaran gagal dibatalkan",
@@ -50,10 +53,9 @@ function cancelPembayaran(id){
                     stopOnFocus: true,
                 }).showToast();
             }
-            $('#paymentdata').DataTable().ajax.reload();
-            $('#kartupembayaran').DataTable().ajax.reload();
         }        
     });
+    
 }
 $('#editJumlahTagihan').on('keyup', function() {
     var inputVal = $(this).val();

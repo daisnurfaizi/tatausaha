@@ -11,11 +11,6 @@ class UpdateDataStudentService extends AddStudentService
     {
         try {
             DB::beginTransaction();
-
-            $student = $this->repository->getModels()::where('nisn', $request->nisn)->first();
-            if ($student) {
-                return $this->response('error', 'NISN Sudah Digunakan', null, 400);
-            }
             $studentBuilder = $this->studentBuilder($request)->setId($request->id)->build();
             $this->repository->updateDetailBy($studentBuilder, 'getId', 'id');
             DB::commit();

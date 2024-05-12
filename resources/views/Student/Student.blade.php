@@ -150,6 +150,11 @@
         </div>
     </div>
     <script>
+        $('#exampleModalgrid').on('show.bs.modal', function(event) {
+            $('#nisn').val(''); // Set the value of NISN input to empty
+            $('#nama').val(''); // Set the value of Nama input to empty
+        });
+
         $('#student').DataTable({
             processing: true,
             serverSide: true,
@@ -231,7 +236,7 @@
             var name = $('#nama').val();
             $.ajax({
                 url: "{{ route('dashboard.updatestudent') }}",
-                type: "POST",
+                type: "PUT",
                 data: {
                     id: id,
                     nisn: nisn,
