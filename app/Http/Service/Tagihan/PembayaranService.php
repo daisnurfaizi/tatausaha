@@ -226,17 +226,19 @@ class PembayaranService extends TagihanService
 
     public function getAllDataPembayaranBatal()
     {
-        $dataPembayaran = $this->pembayaranRepository->getModels()::with('tagihan')
-            ->withTrashed()
-            // where created_ad pada bulan berjalan
+        $dataPembayaran = $this->pembayaranRepository->getModels()::with(['tagihan' => function ($query) {
+            $query->with(['student' => function ($query) {
+                $query->withoutGlobalScope('active')->withTrashed(); // Include both active and soft-deleted students
+            }]);
+        }])
+            ->withTrashed() // Include soft-deleted payments
             ->whereMonth('created_at', date('m'))
-            ->whereNotNull('deleted_at')
-            ->orderBy('created_at', 'desc')->get();
-
+            ->orderBy('created_at', 'desc')
+            ->get();
         return DataTables::of($dataPembayaran)
             ->addIndexColumn()
             ->addColumn('student_name', function ($data) {
-                return $data->tagihan->student->name;
+                return $data->tagihan->student ? $data->tagihan->student->name : 'N/A';
             })
             ->addColumn('bulan_tagihan', function ($data) {
                 return $data->tagihan->bulan_tagihan;
@@ -249,7 +251,6 @@ class PembayaranService extends TagihanService
                 return 'Rp. ' . number_format((float)$tagihan, 0, ',', '.');
             })
             ->addColumn('tanggal_pembayaran', function ($data) {
-                // return $data->tanggal_pembayaran;
                 return date('d-M-Y', strtotime($data->tanggal_pembayaran));
             })
             ->addColumn('metode_pembayaran', function ($data) {
@@ -271,8 +272,6 @@ class PembayaranService extends TagihanService
             ->addColumn('keterangan', function ($data) {
                 return $data->keterangan;
             })
-
-
             ->rawColumns(['bukti_pembayaran'])
             ->make(true);
     }

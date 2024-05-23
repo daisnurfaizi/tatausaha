@@ -17,10 +17,22 @@ class DeleteStudentService
     {
         try {
             DB::beginTransaction();
-            $this->repository->getModels()::where('nisn', $nisn)->update(['status' => 'inactive']);
             $student = $this->repository->getModels()::where('nisn', $nisn)->first();
-            $student->delete();
+            if ($student) {
+                // Update the student's status to 'inactive'
+                $student->status = 'inactive';
+                $student->save();
+                // Using save() instead of update()
+                $student->delete();
+            } else {
+                // If no student found, rollback and return an error
+                DB::rollBack();
+                return redirect()->route('dashboard.student')->with('error', 'Data not found');
+            }
+
             DB::commit();
+
+
             return redirect()->route('dashboard.student')->with('success', 'Data' . $student->name . ' Berhasil Dinonaktifkan');
         } catch (\Exception $e) {
             DB::rollBack();
