@@ -9,7 +9,6 @@
 
         <div id="filter-nama"></div>
 
-
         <table id="paymentdatabatal" class="table table-bordered dt-responsive nowrap table-striped align-middle"
             style="width:100%">
             <thead>
@@ -90,6 +89,11 @@
             //     name: 'user'
             // },
         ],
+        createdRow: function(row, data, dataIndex) {
+            if (data.tagihan.student && data.tagihan.student.status === 'inactive') {
+                $(row).css('background-color', '#ffcccc');
+            }
+        },
         // dom: 'lBfrtip', // Menampilkan elemen filter
         // buttons: [
         //     'csv', 'excel', 'pdf', // Menambahkan tombol eksport CSV, Excel, dan PDF

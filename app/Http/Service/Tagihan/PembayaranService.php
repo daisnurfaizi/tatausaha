@@ -83,7 +83,13 @@ class PembayaranService extends TagihanService
 
     public function getAllDataPembayaran()
     {
-        $dataPembayaran = $this->pembayaranRepository->getModels()::with('tagihan')->orderBy('created_at', 'desc')->get();
+
+        $dataPembayaran = $this->pembayaranRepository->getModels()::with(['tagihan' => function ($query) {
+            $query->with(['student' => function ($query) {
+                $query->withoutGlobalScope('active')->withTrashed(); // Include both active and soft-deleted students
+            }]);
+        }])
+            ->orderBy('created_at', 'desc')->get();
 
         return DataTables::of($dataPembayaran)
             ->addIndexColumn()
