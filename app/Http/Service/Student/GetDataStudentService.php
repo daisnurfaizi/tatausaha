@@ -15,8 +15,11 @@ class GetDataStudentService
 
     public function getAllStudent($datatable = true)
     {
-        $student = $this->repository->getModels()::select('id', 'nisn', 'name', 'status')
-            ->withTrashed()->get();
+        $student = $this->repository->getModels()::withoutGlobalScope('active')
+            ->select('id', 'nisn', 'name', 'status', 'deleted_at')
+            ->withTrashed()
+            ->get();
+
 
         if ($datatable) {
             return DataTables::of($student)
