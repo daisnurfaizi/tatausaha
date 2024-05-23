@@ -44,16 +44,28 @@ class DeleteStudentService
     {
         try {
             DB::beginTransaction();
-            $this->repository->getModels()::where('nisn', $nisn)->withTrashed()->update(['status' => 'active']);
 
-            $student = $this->repository->getModels()::where('nisn', $nisn)->withTrashed()->first();
-            // Perbarui deleted_at menjadi null untuk mengaktifkan kembali data yang dihapus secara lunak
-            if ($student->deleted_at != null) {
-                $student->restore();
+            // Find the student including soft-deleted ones
+            $student = $this->repository->getModels()::withoutGlobalScope('active')
+                ->withTrashed()->where('nisn', $nisn)->first();
+
+            if ($student) {
+                // Update the status to active
+                $student->status = 'active';
+                $student->save();
+
+                // Restore the student if it is soft-deleted
+                if ($student->trashed()) {
+                    $student->restore();
+                }
+
+                DB::commit();
+                return redirect()->route('dashboard.student')->with('success', 'Data ' . $student->name . ' Berhasil Diaktifkan');
+            } else {
+                // If the student was not found, rollback and return error
+                DB::rollBack();
+                return redirect()->route('dashboard.student')->with('error', 'Data tidak ditemukan');
             }
-
-            DB::commit();
-            return redirect()->route('dashboard.student')->with('success', 'Data ' . $student->name . ' Berhasil Diaktifkan');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('dashboard.student')->with('error', 'Data Gagal Diaktifkan');
