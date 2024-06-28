@@ -237,7 +237,7 @@ class PembayaranService extends TagihanService
                 $query->withoutGlobalScope('active')->withTrashed(); // Include both active and soft-deleted students
             }]);
         }])
-            ->withTrashed() // Include soft-deleted payments
+            ->onlyTrashed()
             ->whereMonth('created_at', date('m'))
             ->orderBy('created_at', 'desc')
             ->get();
